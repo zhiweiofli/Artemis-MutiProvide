@@ -21,13 +21,21 @@
 from collections.abc import Callable
 import os
 from pathlib import Path
+import re
 from typing import Any, Literal
 
 import google.auth
 from google.auth.exceptions import DefaultCredentialsError
 from pydantic import BaseModel, ValidationError
 
-from artemis.config.constants import AgentNode, LLMProvider, LLMUtilsNode
+from artemis.config.constants import (
+    AgentNode,
+    CoordFormat,
+    LLMProvider,
+    LLMUtilsNode,
+    MULTIMODAL_REQUIRED_NODES,
+    StructuredOutputMethod,
+)
 from artemis.config.settings import settings
 from artemis.utils.cython_compat import CyFunctionDetector
 from third_party.mobile_use.utils.file import load_jsonc
@@ -63,9 +71,24 @@ class LLM(BaseModel):
     reasoning_effort: Literal["none", "low", "medium", "high"] | None = None
     include_thoughts: bool | None = None
     enable_grounding: bool | None = None
+    is_multimodal: bool = True
+    coord_format: CoordFormat | None = None
+    structured_output_method: StructuredOutputMethod | None = None
+    api_base: str | None = None
 
     def validate_provider(self, name: str) -> None:
         """Ensure the required API key or credentials exist in settings for this provider."""
+        raw_name = name.split(".fallback")[0].strip()
+        s1 = re.sub(r"([A-Z]+)([A-Z][a-z])", r"\1_\2", raw_name)
+        node_key = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", s1).lower().replace(".", "_")
+        norm_set = {k.replace("_", "").lower() for k in MULTIMODAL_REQUIRED_NODES}
+        if (
+            node_key in MULTIMODAL_REQUIRED_NODES or node_key.replace("_", "") in norm_set
+        ) and self.is_multimodal is False:
+            raise ValueError(
+                f"{name} requires a multimodal endpoint (is_multimodal=True), got {self.provider}/{self.model}"
+            )
+
         if self.provider == "openai":
             if not settings.OPENAI_API_KEY:
                 raise Exception(f"{name} requires OPENAI_API_KEY in .env")
@@ -83,6 +106,17 @@ class LLM(BaseModel):
         elif self.provider == "xai":
             if not settings.XAI_API_KEY:
                 raise Exception(f"{name} requires XAI_API_KEY in .env")
+        elif self.provider == "deepseek":
+            if not (settings.DEEPSEEK_API_KEY or os.environ.get("DEEPSEEK_API_KEY")):
+                raise Exception(f"{name} requires DEEPSEEK_API_KEY in .env")
+        elif self.provider == "qwen":
+            if not (
+                settings.QWEN_API_KEY
+                or os.environ.get("QWEN_API_KEY")
+                or getattr(settings, "DASHSCOPE_API_KEY", None)
+                or os.environ.get("DASHSCOPE_API_KEY")
+            ):
+                raise Exception(f"{name} requires QWEN_API_KEY (or DASHSCOPE_API_KEY) in .env")
 
     def __str__(self) -> str:
         return f"{self.provider}/{self.model}"
@@ -94,6 +128,11 @@ class LLMWithFallback(LLM):
     fallback: LLM
     fix_model: str | None = None
     timeout: float | None = None
+
+    def validate_provider(self, name: str) -> None:
+        super().validate_provider(name)
+        if self.fallback:
+            self.fallback.validate_provider(f"{name}.fallback")
 
     def __str__(self) -> str:
         return f"{self.provider}/{self.model} (fallback: {self.fallback})"

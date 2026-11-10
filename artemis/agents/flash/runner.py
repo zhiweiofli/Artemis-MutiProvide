@@ -282,9 +282,13 @@ class FlashRunner:
         try:
             return get_llm(self.ctx, name="operator")
         except Exception as e:
-            logger.warning(f"Failed to get operator LLM from config, using default: {e}")
-
-            return RobustChatModelWrapper(get_google_llm(model_name="gemini-2.5-flash"), self.ctx)
+            logger.warning(f"Failed to get operator LLM from config, trying fallback: {e}")
+            try:
+                return get_llm(self.ctx, name="operator", use_fallback=True)
+            except Exception as e_fb:
+                logger.warning(f"Failed to get operator fallback LLM, delegating: {e_fb}")
+                from artemis.services.llm import get_llm_for_model
+                return get_llm_for_model(None, ctx=self.ctx, fallback_node="operator")
 
     def _render_system_prompt(self, tools_declaration: list) -> str:
         """Renders the system prompt from the flash_runner.md template.

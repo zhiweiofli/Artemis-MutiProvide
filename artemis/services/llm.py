@@ -595,6 +595,14 @@ class RobustChatModelWrapper:
 
     def with_structured_output(self, *args, **kwargs):
         if hasattr(self.base_model, "with_structured_output"):
+            if "method" not in kwargs and self.endpoint is not None:
+                if getattr(self.endpoint, "structured_output_method", None):
+                    kwargs["method"] = self.endpoint.structured_output_method
+                elif getattr(self.endpoint, "provider", None) in (
+                    ModelProvider.DEEPSEEK,
+                    ModelProvider.QWEN,
+                ):
+                    kwargs["method"] = "function_calling"
             return RobustChatModelWrapper(
                 self.base_model.with_structured_output(*args, **kwargs),
                 self.ctx,
@@ -923,19 +931,42 @@ def _resolve_endpoint(
         val = getattr(obj, attr, None)
         return val if isinstance(val, expected_type) else None
 
-    provider_val = getattr(cfg, "provider", "google")
-    model_val = getattr(cfg, "model", "gemini-2.5-flash")
+    provider_val = getattr(cfg, "provider", None)
+    model_val = getattr(cfg, "model", None)
+
+    if isinstance(provider_val, (str, ModelProvider)):
+        try:
+            provider = ModelProvider.from_string(provider_val)
+        except ValueError:
+            provider = ModelProvider.GOOGLE
+    elif isinstance(model_val, str) and "/" in model_val:
+        prefix = model_val.split("/", 1)[0]
+        try:
+            provider = ModelProvider.from_string(prefix)
+        except ValueError:
+            provider = ModelProvider.GOOGLE
+    else:
+        provider = ModelProvider.GOOGLE
+
+    model_name = str(model_val) if isinstance(model_val, str) and model_val else "gemini-2.5-flash"
+    multimodal_val = _get_val(cfg, "is_multimodal", bool)
+    is_multimodal = multimodal_val if multimodal_val is not None else True
 
     return ModelEndpoint(
-        provider=ModelProvider.from_string(provider_val),
-        model_name=str(model_val),
+        provider=provider,
+        model_name=model_name,
+        api_key=_get_val(cfg, "api_key", str),
+        api_base=_get_val(cfg, "api_base", str),
         temperature=_get_val(cfg, "temperature", (int, float)) or 0.0,
         timeout_seconds=_get_val(cfg, "timeout", (int, float)) or 60.0,
+        is_multimodal=is_multimodal,
         thinking_budget=_get_val(cfg, "thinking_budget", int),
         thinking_level=_get_val(cfg, "thinking_level", str),
         reasoning_effort=_get_val(cfg, "reasoning_effort", str),
         include_thoughts=_get_val(cfg, "include_thoughts", bool),
         enable_grounding=_get_val(cfg, "enable_grounding", bool) or False,
+        coord_format=_get_val(cfg, "coord_format", str),
+        structured_output_method=_get_val(cfg, "structured_output_method", str),
     )
 
 
@@ -959,6 +990,113 @@ def _get_llm(
 
 
 get_llm: GetLLM = _get_llm
+
+
+def get_llm_for_model(
+    model_spec: str | None = None,
+    *,
+    ctx: ArtemisContext | None = None,
+    fallback_node: str = "summarizer",
+    temperature: float = 0.0,
+) -> BaseChatModel:
+    """Resolve an LLM for background services without hardcoding Google.
+
+    1. If ctx has an initialized llm_config whose fallback_node provider is NOT google,
+       and model_spec is either None or a default 'gemini-*' string from agent config,
+       delegate to get_llm(ctx, name=fallback_node, is_utils=False, temperature=temperature).
+    2. If model_spec uses 'provider/model' syntax (e.g. 'deepseek/deepseek-flash-v4-1017'),
+       parse provider and model_name and route via ModelFactory.get_model + RobustChatModelWrapper.
+    3. Otherwise, infer provider from ctx.llm_config (if available) or fallback to Google.
+    """
+    if ctx is None:
+        try:
+            ctx = ArtemisContext()
+        except Exception:
+            pass
+
+    llm_cfg = getattr(ctx, "llm_config", None) if ctx else None
+    if llm_cfg is None:
+        try:
+            llm_cfg = get_default_llm_config()
+            if ctx:
+                ctx.llm_config = llm_cfg
+        except Exception:
+            pass
+
+    # 1. If ctx has initialized llm_config whose fallback_node provider is NOT google
+    if llm_cfg is not None:
+        is_util = fallback_node in ("outputter", "hopper", "video_analyzer", "object_detector")
+        try:
+            node_cfg = (
+                llm_cfg.get_utils(fallback_node) if is_util else llm_cfg.get_agent(fallback_node)
+            )
+            provider = getattr(node_cfg, "provider", None)
+            if isinstance(provider, (str, ModelProvider)):
+                prov_enum = ModelProvider.from_string(provider)
+            else:
+                prov_enum = ModelProvider.GOOGLE
+        except Exception:
+            prov_enum = ModelProvider.GOOGLE
+
+        if prov_enum != ModelProvider.GOOGLE and (
+            model_spec is None or str(model_spec).lower().startswith("gemini")
+        ):
+            return get_llm(ctx, name=fallback_node, is_utils=is_util, temperature=temperature)
+
+    # 2. If model_spec uses 'provider/model' syntax
+    if model_spec and "/" in model_spec:
+        prov_str, model_name = model_spec.split("/", 1)
+        endpoint = ModelEndpoint(
+            provider=ModelProvider.from_string(prov_str),
+            model_name=model_name,
+            temperature=temperature,
+        )
+        raw_model = ModelFactory.get_model(endpoint)
+        return RobustChatModelWrapper(raw_model, ctx, endpoint=endpoint)
+
+    # 3. If model_spec is specified without slash
+    if model_spec:
+        if llm_cfg is not None:
+            is_util = fallback_node in ("outputter", "hopper", "video_analyzer", "object_detector")
+            node_cfg = (
+                llm_cfg.get_utils(fallback_node) if is_util else llm_cfg.get_agent(fallback_node)
+            )
+            provider = getattr(node_cfg, "provider", None)
+            if isinstance(provider, (str, ModelProvider)):
+                prov = ModelProvider.from_string(provider)
+            else:
+                prov = ModelProvider.GOOGLE
+
+            if prov != ModelProvider.GOOGLE and str(model_spec).lower().startswith("gemini"):
+                return get_llm(ctx, name=fallback_node, is_utils=is_util, temperature=temperature)
+
+            if "gemini" in model_spec.lower():
+                endpoint = ModelEndpoint(
+                    provider=ModelProvider.GOOGLE,
+                    model_name=model_spec,
+                    temperature=temperature,
+                )
+            else:
+                endpoint = ModelEndpoint(
+                    provider=prov,
+                    model_name=model_spec,
+                    temperature=temperature,
+                )
+        else:
+            endpoint = ModelEndpoint(
+                provider=ModelProvider.GOOGLE,
+                model_name=model_spec,
+                temperature=temperature,
+            )
+        raw_model = ModelFactory.get_model(endpoint)
+        return RobustChatModelWrapper(raw_model, ctx, endpoint=endpoint)
+
+    # 4. If model_spec is None and ctx is available
+    if ctx and llm_cfg:
+        is_util = fallback_node in ("outputter", "hopper", "video_analyzer", "object_detector")
+        return get_llm(ctx, name=fallback_node, is_utils=is_util, temperature=temperature)
+
+    return get_google_llm(temperature=temperature)
 
 
 class _ObservedFallback(FallbackRunner):

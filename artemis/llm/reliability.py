@@ -90,6 +90,11 @@ def classify_failure(error: BaseException) -> Failure:
     code = extract_status_code(error)
     message = str(error).lower()
 
+    if code == 402 or any(
+        marker in message for marker in ("insufficient balance", "insufficient_quota", "arrearage")
+    ):
+        return Failure(FailureCategory.RATE_LIMIT, False, True)
+
     if code == 429 or any(marker in message for marker in _RATE_LIMIT_MARKERS):
         return Failure(FailureCategory.RATE_LIMIT, True, True)
     if code in {500, 502, 503, 504} or any(marker in message for marker in _UNAVAILABLE_MARKERS):
