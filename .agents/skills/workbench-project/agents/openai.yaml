@@ -1,0 +1,4 @@
+interface:
+  display_name: "Workbench Project & Builder"
+  short_description: "Adopt project contracts, propose agent teams, prepare task context, and verify handoffs"
+  default_prompt: "使用 $workbench-project 盘点当前项目缺口，保留已有规则，提出简短组队与首项任务方案并在确认后推进交付与交接验证。"
