@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "mode": "managed",
+  "roles": {
+    "controller": "claude-code",
+    "manager": "claude-code",
+    "worker": "agy",
+    "reviewer": "codex"
+  },
+  "tasks": [
+    {
+      "key": "p1-red-tests",
+      "title": "P1-RED: 编写 T-01~T-12 先验契约单元测试 (AGY Worker)",
+      "role": "worker",
+      "file": "tasks/p1-red-tests.md",
+      "deps": []
+    },
+    {
+      "key": "p1-red-review",
+      "title": "P1-RED-REVIEW: 独立审查先验测试完整性 (Codex Reviewer)",
+      "role": "reviewer",
+      "file": "tasks/p1-red-review.md",
+      "deps": ["p1-red-tests"]
+    },
+    {
+      "key": "p2-green-impl",
+      "title": "P2-GREEN: 双通道路由、预设加载与坐标自适应实现 (AGY Worker)",
+      "role": "worker",
+      "file": "tasks/p2-green-impl.md",
+      "deps": ["p1-red-review"]
+    },
+    {
+      "key": "p3-final-review",
+      "title": "P3-FINAL-REVIEW: Standards + Spec 双轴独立代码审查 (Codex Reviewer)",
+      "role": "reviewer",
+      "file": "tasks/p3-final-review.md",
+      "deps": ["p2-green-impl"]
+    }
+  ],
+  "budget": {
+    "launches": 8,
+    "wallClockMinutes": 120
+  }
+}

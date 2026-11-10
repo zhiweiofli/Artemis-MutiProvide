@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "agents": {
+    "coordinator": "claude-code",
+    "worker": "agy",
+    "reviewer": "codex"
+  },
+  "workflow": {
+    "maxReworks": 2
+  },
+  "delivery": {
+    "workers": ["agy", "agy-argon"],
+    "reviewers": ["codex"],
+    "manager": "claude-code"
+  }
+}
