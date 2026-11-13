@@ -248,6 +248,50 @@ def resolve_preset_config(config_dict: dict, explicit_preset: str | None = None)
     return resolved
 
 
+def _apply_runtime_env_model_overrides(resolved_dict: dict) -> dict:
+    """Apply runtime environment model overrides (DEEPSEEK_BASE_MODEL, QWEN_BASE_MODEL) to parsed config."""
+    if not isinstance(resolved_dict, dict):
+        return resolved_dict
+
+    default_cfg = resolved_dict.get("default")
+    default_provider = default_cfg.get("provider") if isinstance(default_cfg, dict) else None
+    nodes_cfg = resolved_dict.get("nodes")
+
+    ds_base_model = os.getenv("DEEPSEEK_BASE_MODEL") or (
+        getattr(settings, "DEEPSEEK_BASE_MODEL", None) if settings else None
+    )
+    if ds_base_model:
+        if isinstance(default_cfg, dict) and default_provider == "deepseek":
+            default_cfg["model"] = ds_base_model
+        if isinstance(nodes_cfg, dict):
+            for n_data in nodes_cfg.values():
+                if isinstance(n_data, dict):
+                    node_prov = n_data.get("provider") or default_provider
+                    if node_prov == "deepseek":
+                        n_data["model"] = ds_base_model
+
+    qwen_base_model = os.getenv("QWEN_BASE_MODEL") or (
+        getattr(settings, "QWEN_BASE_MODEL", None) if settings else None
+    )
+    if qwen_base_model:
+        if isinstance(default_cfg, dict) and default_provider == "qwen":
+            default_cfg["model"] = qwen_base_model
+        if isinstance(nodes_cfg, dict):
+            for n_name, n_data in nodes_cfg.items():
+                if isinstance(n_data, dict):
+                    node_prov = n_data.get("provider") or default_provider
+                    if node_prov == "qwen":
+                        n_data["model"] = qwen_base_model
+                        if n_name == "object_detector":
+                            qwen_url = os.getenv("QWEN_BASE_URL") or (
+                                str(getattr(settings, "QWEN_BASE_URL", "")) if settings else ""
+                            )
+                            if "siliconflow" in qwen_url.lower():
+                                n_data["coord_format"] = "bbox_xyxy_1000"
+                                n_data["timeout"] = max(float(n_data.get("timeout", 25.0)), 35.0)
+    return resolved_dict
+
+
 def _expand_default_into_nodes(config_dict: dict) -> dict:
     """Expand unified config format with 'default' and 'nodes' into full LLMConfig schema."""
     if "planner" in config_dict and "utils" in config_dict:
@@ -332,6 +376,7 @@ def parse_llm_config() -> LLMConfig:
         with open(config_path, encoding="utf-8") as f:
             config_dict = load_jsonc(f)
             resolved_dict = resolve_preset_config(config_dict)
+            resolved_dict = _apply_runtime_env_model_overrides(resolved_dict)
             expanded_dict = _expand_default_into_nodes(resolved_dict)
             return LLMConfig.model_validate(expanded_dict)
     except Exception as e:

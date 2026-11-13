@@ -108,8 +108,10 @@ class Settings(BaseSettings):
     OPEN_ROUTER_API_KEY: SecretStr | None = None
     DEEPSEEK_API_KEY: SecretStr | None = None
     DEEPSEEK_BASE_URL: str = "https://api.deepseek.com/v1"
+    DEEPSEEK_BASE_MODEL: str | None = None
     QWEN_API_KEY: SecretStr | None = None
     QWEN_BASE_URL: str = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+    QWEN_BASE_MODEL: str | None = None
     DASHSCOPE_API_KEY: SecretStr | None = None
     ARTEMIS_PRESET: str | None = None
 

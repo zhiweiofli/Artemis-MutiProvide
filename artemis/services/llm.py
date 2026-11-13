@@ -1011,8 +1011,8 @@ def get_llm_for_model(
     if ctx is None:
         try:
             ctx = ArtemisContext()
-        except Exception:
-            pass
+        except (RuntimeError, ValueError, AttributeError, KeyError, OSError) as exc:
+            llm_logger.debug("Failed to initialize ArtemisContext: %s", exc)
 
     llm_cfg = getattr(ctx, "llm_config", None) if ctx else None
     if llm_cfg is None:
@@ -1020,8 +1020,8 @@ def get_llm_for_model(
             llm_cfg = get_default_llm_config()
             if ctx:
                 ctx.llm_config = llm_cfg
-        except Exception:
-            pass
+        except (RuntimeError, ValueError, AttributeError, KeyError, OSError) as exc:
+            llm_logger.debug("Failed to load default LLMConfig: %s", exc)
 
     # 1. If ctx has initialized llm_config whose fallback_node provider is NOT google
     if llm_cfg is not None:

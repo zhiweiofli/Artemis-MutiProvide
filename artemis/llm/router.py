@@ -377,7 +377,9 @@ class ModelFactory:
         elif provider in _OPENAI_COMPAT_PROVIDERS:
             from langchain_openai import ChatOpenAI
 
-            settings_key, settings_url, default_url, env_fallbacks = _OPENAI_COMPAT_PROVIDERS[provider]
+            settings_key, settings_url, default_url, env_fallbacks = _OPENAI_COMPAT_PROVIDERS[
+                provider
+            ]
 
             api_key = endpoint.api_key
             if not api_key:
@@ -389,11 +391,19 @@ class ModelFactory:
                 if not api_key and settings_key:
                     s_val = getattr(settings, settings_key, None)
                     if s_val:
-                        api_key = s_val.get_secret_value() if hasattr(s_val, "get_secret_value") else str(s_val)
+                        api_key = (
+                            s_val.get_secret_value()
+                            if hasattr(s_val, "get_secret_value")
+                            else str(s_val)
+                        )
                 if not api_key and provider == ModelProvider.QWEN:
                     dash_s = getattr(settings, "DASHSCOPE_API_KEY", None)
                     if dash_s:
-                        api_key = dash_s.get_secret_value() if hasattr(dash_s, "get_secret_value") else str(dash_s)
+                        api_key = (
+                            dash_s.get_secret_value()
+                            if hasattr(dash_s, "get_secret_value")
+                            else str(dash_s)
+                        )
             if not api_key:
                 api_key = "EMPTY"
 
@@ -417,6 +427,14 @@ class ModelFactory:
             if provider in (ModelProvider.DEEPSEEK, ModelProvider.QWEN):
                 kwargs["stream_usage"] = True
                 kwargs["max_retries"] = 0
+            if provider == ModelProvider.QWEN and endpoint.include_thoughts is not True:
+                m_lower = endpoint.model_name.lower()
+                # Hybrid thinking models (e.g. Qwen3.8 / Qwen3.6 / Qwen3.5 without -instruct)
+                # reject nothing, while pure -Instruct / Qwen2.5 models reject enable_thinking with 400.
+                if "instruct" not in m_lower and any(
+                    tag in m_lower for tag in ("qwen3.8", "qwen3.6", "qwen3.5", "qwen3-vl-plus")
+                ):
+                    kwargs["extra_body"] = {"enable_thinking": False}
             if endpoint.reasoning_effort:
                 kwargs["reasoning_effort"] = endpoint.reasoning_effort
             return ChatOpenAI(**{k: v for k, v in kwargs.items() if v is not None})

@@ -66,8 +66,10 @@ ENV_OPEN_ROUTER_API_KEY = "OPEN_ROUTER_API_KEY"
 ENV_XAI_API_KEY = "XAI_API_KEY"
 ENV_DEEPSEEK_API_KEY = "DEEPSEEK_API_KEY"
 ENV_DEEPSEEK_BASE_URL = "DEEPSEEK_BASE_URL"
+ENV_DEEPSEEK_BASE_MODEL = "DEEPSEEK_BASE_MODEL"
 ENV_QWEN_API_KEY = "QWEN_API_KEY"
 ENV_QWEN_BASE_URL = "QWEN_BASE_URL"
+ENV_QWEN_BASE_MODEL = "QWEN_BASE_MODEL"
 ENV_DASHSCOPE_API_KEY = "DASHSCOPE_API_KEY"
 ENV_ARTEMIS_PRESET = "ARTEMIS_PRESET"
 
@@ -148,19 +150,21 @@ CoordFormat = Literal[
 
 StructuredOutputMethod = Literal["json_schema", "function_calling", "json_mode"]
 
-MULTIMODAL_REQUIRED_NODES: frozenset[str] = frozenset({
-    "operator",
-    "planner",
-    "checker",
-    "diagnoser",
-    "diagnoser_expert",
-    "explorer",
-    "summarizer",
-    "operator_summarizer",
-    "video_analyzer",
-    "object_detector",
-    "validator_pixel_safety_net",
-})
+MULTIMODAL_REQUIRED_NODES: frozenset[str] = frozenset(
+    {
+        "operator",
+        "planner",
+        "checker",
+        "diagnoser",
+        "diagnoser_expert",
+        "explorer",
+        "summarizer",
+        "operator_summarizer",
+        "video_analyzer",
+        "object_detector",
+        "validator_pixel_safety_net",
+    }
+)
 ExplorerVersion = Literal["flash", "pro", "ultra"]
 
 LLMUtilsNode = Literal[

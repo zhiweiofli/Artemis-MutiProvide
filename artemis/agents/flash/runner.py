@@ -288,6 +288,7 @@ class FlashRunner:
             except Exception as e_fb:
                 logger.warning(f"Failed to get operator fallback LLM, delegating: {e_fb}")
                 from artemis.services.llm import get_llm_for_model
+
                 return get_llm_for_model(None, ctx=self.ctx, fallback_node="operator")
 
     def _render_system_prompt(self, tools_declaration: list) -> str:
