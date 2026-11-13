@@ -122,3 +122,6 @@ live_screenshot*.png
 ehthumbs.db
 Thumbs.db
 /.fabric/
+.alma-snapshots
+.artemis/
+.benchmark/

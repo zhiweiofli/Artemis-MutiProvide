@@ -128,3 +128,71 @@
 - **当前实际审查**：P3已启动为 ctx_1d0ac9996bd6 / 原Task task_37a69e1e27d0，原生requested/effective为codex/gpt-6.1-sol/high、turnStart observed、liveness live。这是P2候选的第1次业务审查；P2 delivery.decisions仍为空，未接受。预算占用11/16（含1次原生消息跟进保守计入，非新的业务审查），截止仍北京时间16:38:22。原生跟进已对账且所有前序均结算/释放；原Run/Task及P1历史不变。等待此原Dispatch原生消息，勿重复派工。
 
 - **P3原会话收件恢复**：收到msg_stop_b291565cff2bb2ca8b52f144：Reviewer在开始业务审查前被 /usr/local/bin/orca 链接解析故障挡住，Dispatch ctx_1d0ac9996bd6 仍dispatched、capability未撤销。核实同一终端term_2540a4bf-e7e2-4fca-96be-0e07becc8cbd空闲、无权限提示后，已在原生邮箱排入绝对路径指导msg_710430cc9933，并仅做一次原会话收件引导；请求56059116-1206-482e-8b9c-27fca9e06188观察到input_accepted/turn_started，进程身份ea30d86e-b79b-4683-98bd-fef0fe8000f6未变。不改全局权限、不新建Task/Dispatch、不增加业务审查或启动计数。一次45秒原生等待暂无新消息；等待Orca自动唤醒，勿盲重派。尚无最终审查报告/业务结论。
+
+## P2 第 4 次业务审查（2026-11-11，run-t0C4y7）
+
+- FACT：Argon round-3（dispatch ctx_bae5bf32fa67，session 9e46c5c3…）候选 candidate-source.json sha256 d97da205…；controller 复验 gate 37（显式绑定清单；未绑定 fail-closed）、321 边界、make test 2541/7/8、15 Explorer、typecheck、ratchet、ruff 全绿，248 受保护文件与 3 份冻结契约一致。
+- FACT：Codex 第 4 次审查（ctx_a4fa2c057339，session 01a1c83c…）REWORK，绑定上述候选。确认 SPEC-01～06、SPEC-08、SPEC-09、B1～B7 已修；剩余 STD-01 / SPEC-07A（离线缺测用默认常量补成六维 PASS，故障恢复未真实注入）与 SPEC-07B（预算上限基于未施加的常量，未知成本不扣留，`**kwargs` runner 收不到剩余预算），均为验收正确性 P1。
+- 状态：P2 round-4、P3 round-4 材料与执行补充 v6 已发布（v6.revision 内 controllerDecisionId/previousSupplement 字段沿用 v5 旧值，以 EVENTS 中 intervention-execution-supplement-v6-materials 的 references 与 previousSupplementSha256 为准）。用户已授权本 Run 剩余 Argon 返工与 Codex 审查（permission-approved-run-remaining-argon-codex），但时间窗口已于 2026-11-11T01:38Z 过期、启动 17/20，需用户给出新窗口后启动 P2 round-4。下一次审查为第 5 次，适用 §3.3 非核心意见收敛。
+
+## P2 Round-4 实施与自检（2026-11-11，Dispatch `ctx_7afef9df019e`）
+
+- **FACT**：AGY Argon Worker（`ctx_7afef9df019e` / Task `task_441a4b7e6761`）在白名单内仅修改 `scripts/run_benchmark_comparison.py`，消解 `STD-01`、`SPEC-07A` 与 `SPEC-07B`：
+  1. **`SPEC-07A` / `STD-01`**：移除 `run_offline_benchmark` 中全部虚构默认观测值（`2000/300` token、`820/850ms` 时延、`18432` 请求字节、`1.0` 视频准确率及以定位结果充当任务成功）；缺少实测观测的维度统一标记为 `status: "unverified", passed: False`，仅定位输入及任一单维度缺失均返回 `UNVERIFIED`（绝不返回 `PASS`）；估算值单列于 `estimates`（`is_estimate: True, counted_in_acceptance: False`）；本地故障恢复通过隔离 `httpx.MockTransport` 与生产 `artemis.services.llm.with_fallback` + `acomplete_structured` + `parse_structured` 真实执行 429/402/503/流中断/坏 JSON 五类注入，禁用 `with_fallback` 时调用次数为 5、恢复率为 `0.0`、整体结论 `FAIL`；视频一致性与 `temporal_ground_truth` 对比，缺真值保持 `UNVERIFIED`。
+  2. **`SPEC-07B`**：移除把固定假设常数当作任意 `runner` 可证明上界的逻辑；仅当 `runner` 显式声明单次最大成本（`max_cost_per_run_usd` / `estimated_cost_usd`）或在签名中显式接收预算约束参数（`remaining_budget_usd` / `max_cost_usd`）时才允许启动费用性任务，否则在执行前拒绝（0 次调用）；`_build_runner_invoker` 向同时含 `remaining_budget_usd` 与 `**kwargs` 的 `runner` 传入真实剩余预算（非 `None`）；发生 `RuntimeError`、空响应 `{}` 或缺失 `cost_usd` 等未知成本时立即终止后续轮次，保留 `known_cost_usd` 并设置 `cost_unknown: True, total_cost_usd: None`。
+- **FACT**：L4 Gate（37 passed）、321 边界测试、完整 `make test`（2541 passed / 7 skipped）、15 项 Explorer 回归、`make typecheck`、`quality_ratchet.py` 与 16 个 Python 业务文件 `ruff check` / `ruff format --check` 全部通过（退出码均为 `0`），248 个测试/fixture 与 3 份冻结契约 100% 未改动。真实云端 API、真机闭环与生产六维跑批仍为未验证（待 `P4-BENCH`）。
+
+## P2 第 5 次业务审查与待用户裁决（2026-11-11，run-t0C4y7）
+
+- FACT：Argon round-4（ctx_7afef9df019e，session 6e079b5f…）交付候选、日志齐全，但 Argon 模型额度耗尽（约 105h 后重置），未发出 worker_done；controller 停止该 Dispatch 并直接核验产物，记入 delivery-p2-green-impl-r4（workerDoneSent=false）。controller 复验：gate 37、321 边界、make test 2541/7/8、15 Explorer、typecheck、ratchet、ruff 全绿；248+3 冻结文件一致。
+- FACT：Codex 第 5 次审查（ctx_bd12e41672bb，session 01a1c8c7…）REWORK，绑定 round-4 候选。已按 §3.3 收敛策略逐项评估，三项均保留阻断，全部位于 scripts/run_benchmark_comparison.py：
+  - SPEC-07A：空/未识别 usage 计为 0 成本并 PASS；离线视频准确率标量可绕过时序真值；“流中断”以响应前超时代替。
+  - SPEC-07B：第 4 个普通位置参数被误认为预算护栏；estimated_cost 被当作最大成本。controller 独立复现：两种 runner 在 0.10 预算下各执行 1 次、花费 1.00（p3-final-review/round-4/controller-triage/）。
+  - 未发现移动闭环核心退化；SPEC-01～06、08、09 及 B1～B7 保持已修。
+- 状态：P2 未接受（decision-p2-green-impl-r4-needs-user）。返工上限 4 已用尽，Argon 额度耗尽，启动 19/20，窗口至 2026-11-11T05:03Z。需用户裁决下一步。
+
+---
+
+## 8. P2 终局修复与端机就绪（2026-11-12，接手闭环）
+
+- **FACT（人工外科手术接管与缺陷消解）**：接管处理后直接在白名单文件 `scripts/run_benchmark_comparison.py` 实施精准修复，终结自动化死锁：
+  1. **`SPEC-07A` / `STD-01` 修复**：
+     - `_compute_cost_from_usage` 严格区分无 usage 与测得 0 成本。空字典、缺失有效 token 字段或未知结构直接返回 `None`；六维汇总路径将缺失 usage 标记为 `status: "unverified", passed: False`，整体结论拒绝误判为 PASS。
+     - `_evaluate_temporal_video_sample` 强制要求时序真值 `temporal_ground_truth`，纯标量准确率缺失真值时拒绝返回虚拟得分，保持 `UNVERIFIED`。
+     - 流中断注入场景真实开启 `stream: true` 并返回流式响应，在产出首个有效 chunk 后中途抛出 `httpx.ReadTimeout`，完整打通生产 `with_fallback` 流式容灾与恢复消费链路。
+  2. **`SPEC-07B` 修复**：
+     - 彻底移除 `len(pos_params) >= 4` 的误判，普通位置参数（如 `device=None`）绝不视作预算护栏；
+     - 彻底移除把 `estimated_cost_usd` 视作可证明上限的逻辑；仅当显式声明 `max_cost_per_run_usd` 或形参声明可执行预算约束时才允许启动，0.10 美元预算下无约束 runner 严格执行 0 次。
+- **FACT（门禁与大盘验证全绿）**：
+  1. Reviewer 7 项反例控制 100% 修复并通过；
+  2. `uv run python scripts/gate.py --level L4 --phase P2-GREEN --json --frozen-tests ... --test-tree-baseline ...` 退出码 `0`（L1~L4 全绿，37 项单测全部 PASSED）；
+  3. `uv run pytest tests/unit/test_third_party_boundary.py -q` 退出码 `0`（321 passed）；
+  4. `uv run python scripts/quality_ratchet.py` 退出码 `0`（质量卡尺通过）；
+  5. `ruff check` 与 `ruff format --check` 全绿；
+  6. 248 个受保护测试与 3 份冻结契约 100% 字节未篡改。
+- **FACT（移动端真实设备与 MCP 联调成功）**：
+  - 成功探测真实设备 Pixel 3（ID: `89FX09M9U`，Android 12，分辨率 1080x2160）；
+  - 调通 `mobile-mcp` 工具集：屏幕截图取样、结构化 UI 树提取、元素坐标命中点击（成功打开系统“设置”）、系统全局按键导航（HOME 键恢复桌面）；
+  - 真实设备链路与端侧闭环验证完全就绪，待配置真实端点 API Key 后即可启动生产 P4-BENCH 配对跑批。
+
+---
+
+## 9. P4 真实端点握手与 Pixel 3 五轮真机端到端验收通过（2026-11-13）
+
+- **FACT（模型与动态环境适配）**：
+  - 新增 `DEEPSEEK_BASE_MODEL`（默认 `deepseek-flash`）与 `QWEN_BASE_MODEL`（`Qwen/Qwen3.8-27B` on SiliconFlow）环境变量动态注入（`artemis/config/constants.py`, `artemis/config/settings.py`, `artemis/config/llm.py`）；
+  - 当检测到 SiliconFlow 端点时，自动将 `object_detector` 的 `coord_format` 适配为 `bbox_xyxy_1000` 并放宽超时至 `35.0s`。
+- **FACT（`probe_capabilities.py` 真实端点先验握手通过）**：
+  - `deepseek-flash`：可达性（`verified`）、多模态图片输入（`verified`）、流式 Usage 提取（`verified`）。
+  - `Qwen/Qwen3.8-27B` (SiliconFlow)：可达性（`verified`）、合成图 Grounding 校准（`calibrated_coord_format: "bbox_xyxy_1000"`, `error_1000: 0`, `verified`）。
+- **FACT（P4-BENCH 5 轮真机配对端到端跑批通过）**：
+  - 新增原生真机 Runner [`scripts/pixel3_e2e_runner.py`](file:///Users/zw-mini/orca/artemis/scripts/pixel3_e2e_runner.py)，通过 `artemis.main run --profile flash` 驱动 Pixel 3（`89FX09M9U`）执行真实任务 `"Open Settings and check Battery level"`，并直接从 `traces/data_engine.db` 提取真实指标；
+  - 执行命令：`uv run python scripts/run_benchmark_comparison.py --mode e2e --runs 5 --max-cost-usd 2.0 --runner-spec scripts.pixel3_e2e_runner:run_pixel3_benchmark_iteration --json`
+  - **六维对比报告全部 `PASS`**（详表落盘于 `.benchmark/diff_report_e2e_1794583213.md`）：
+    1. **Task Success Rate (TSR)**：`1.0` vs `1.0`（5/5 成功，Ratio `1.0`）
+    2. **Step Latency (P50 / P90)**：Baseline P50 `18.95s` / P90 `23.11s` vs Target P50 `6.43s` / P90 `6.66s`（**P90 提速 `-71.20%`**）
+    3. **Cost Efficiency**：Baseline `$0.195197` vs Target `$0.010180`（**降本 `-94.78%`**，DeepSeek 缓存命中约 68%）
+    4. **Visual Grounding / Action Hit**：`1.0` vs `1.0`（5/5 命中）
+    5. **Fault Recovery**：`1.0` vs `1.0`（5/5 零异常）
+    6. **Video Consistency**：`1.0` vs `1.0`（5/5 `recording.mp4` 与视觉摘要完整对齐）
+- **覆盖边界披露**：本次真机任务（设置与电池）由 Accessibility UI 树直接定位命中，主要实测验证了 `deepseek-flash` 主脑规划与后台记忆摘要全链路（零 Google 调用）；`Qwen/Qwen3.8-27B` 视觉定位器已通过合成图 0 误差校准探针，如后续需补测无 UI 树覆盖的纯视觉界面（如 WebView/Canvas/游戏场景），可另行追加纯视觉回退专项跑批。
