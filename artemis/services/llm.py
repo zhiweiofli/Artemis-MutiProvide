@@ -45,6 +45,7 @@ from artemis.data_engine.trace import CURRENT_TRACE_ID, DataEngineCallbackHandle
 from artemis.llm.google import is_google_chat_model, is_google_provider
 from artemis.llm.reliability import (
     CircuitBreaker,
+    Failure,
     FailureCategory,
     LLMCallError,
     LLMExhaustedError,
@@ -98,6 +99,77 @@ def _begin_llm_request(provider: str | None) -> Token:
 # behind this call (set by with_fallback).  When a fallback exists, exhausting
 # retries hands over to it immediately instead of pausing the whole task.
 _FALLBACK_AVAILABLE: ContextVar[bool] = ContextVar("llm_fallback_available", default=False)
+
+#: Vision providers reject degenerate frames (Qwen: "height(1) or width(1) must
+#: be larger than 28"). Anything below this is a capture failure, never a screen.
+MIN_USABLE_IMAGE_EDGE = 32
+
+_DATA_IMAGE_PREFIX = "data:image/"
+
+
+def _iter_data_image_blocks(messages: Any):
+    """Yield (mime, base64) for every inline image in a message list."""
+    if not isinstance(messages, (list, tuple)):
+        return
+    for message in messages:
+        content = getattr(message, "content", None)
+        if content is None and isinstance(message, dict):
+            content = message.get("content")
+        if not isinstance(content, list):
+            continue
+        for block in content:
+            if not isinstance(block, dict) or block.get("type") not in ("image_url", "image"):
+                continue
+            url = (block.get("image_url") or {}).get("url") if isinstance(block.get("image_url"), dict) else None
+            url = url or block.get("url") or ""
+            if not isinstance(url, str) or not url.startswith(_DATA_IMAGE_PREFIX):
+                continue
+            header, _, payload = url.partition(",")
+            yield header[len(_DATA_IMAGE_PREFIX):].split(";")[0], payload
+
+
+def unusable_image_reason(messages: Any) -> str | None:
+    """Why an inline image must not reach a model, or None when every image is usable.
+
+    Only decodable images are judged: an undecodable payload is left to the
+    provider (test doubles and exotic encodings must not be blocked here).
+    """
+    import base64
+    import io
+
+    from PIL import Image
+
+    for mime, payload in _iter_data_image_blocks(messages):
+        try:
+            raw = base64.b64decode(payload, validate=False)
+            with Image.open(io.BytesIO(raw)) as image:
+                width, height = image.size
+                extrema = image.convert("RGB").getextrema()
+        except Exception:
+            continue
+        if min(width, height) < MIN_USABLE_IMAGE_EDGE:
+            return (
+                f"degenerate {mime or 'image'} frame {width}x{height}: "
+                f"min edge {min(width, height)} < {MIN_USABLE_IMAGE_EDGE}"
+            )
+        if all(low == high for low, high in extrema):
+            llm_logger.warning(
+                f"Uniform {mime or 'image'} frame {width}x{height} sent to the model "
+                f"(pixel {extrema}); legitimate loading screens look like this."
+            )
+    return None
+
+
+def _reject_degenerate_images(messages: Any) -> None:
+    """Raise a permanent, non-fallback error instead of spending a call on a bad frame."""
+    reason = unusable_image_reason(messages)
+    if not reason:
+        return
+    llm_logger.error(f"Refusing to send an image to the model: {reason}")
+    raise LLMPermanentError(
+        reason,
+        failure=Failure(FailureCategory.BAD_REQUEST, False, False),
+    )
 
 # Shared circuit breaker keyed by "provider:model".  Transient failures open
 # it; while open, concurrent calls wait out the cooldown instead of hammering
@@ -648,6 +720,7 @@ class RobustChatModelWrapper:
 
     async def ainvoke(self, *args, **kwargs):
         args, kwargs, _ = self._traced_call(args, kwargs)
+        _reject_degenerate_images(args[0] if args else kwargs.get("input"))
         response = await _run_with_recovery(
             functools.partial(self.base_model.ainvoke, *args, **kwargs),
             provider=self._provider_value(),
@@ -667,6 +740,7 @@ class RobustChatModelWrapper:
         partial or duplicated chunks can never reach message history.
         """
         args, kwargs, _ = self._traced_call(args, kwargs)
+        _reject_degenerate_images(args[0] if args else kwargs.get("input"))
         emit_deltas = bool(self.ctx and self.ctx.data_engine)
         response = await _run_with_recovery(
             functools.partial(self._complete_attempt, emit_deltas, *args, **kwargs),
