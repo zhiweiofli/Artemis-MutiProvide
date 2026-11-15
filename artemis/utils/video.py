@@ -36,6 +36,12 @@ from third_party.mobile_use.utils.logger import get_logger
 logger = get_logger(__name__)
 
 ANDROID_RECORDING_SEGMENT_SECONDS = 1800
+# One session may roll segments for at most three hours; past that the recording
+# is stopped instead of growing without bound (an orphaned scrcpy once reached
+# 8.7 GiB by recording for ~10 hours after its task died).
+MAX_RECORDING_SESSION_SECONDS = 3 * ANDROID_RECORDING_SEGMENT_SECONDS
+# scrcpy's own backstop: stop writing even when nobody is left to roll segments.
+SCRCPY_SEGMENT_TIME_LIMIT_SECONDS = ANDROID_RECORDING_SEGMENT_SECONDS + 120
 # The recording marker closely tracks the first frame; startup measurements
 # put the fallback near three quarters of a second after process creation.
 SCRCPY_RECORDING_STARTED_MARKER = "Recording started"
@@ -51,6 +57,7 @@ def build_scrcpy_record_command(
     output_path: Path,
     video_bit_rate: str = "2M",
     lock_capture_orientation: bool = True,
+    time_limit_s: int | None = None,
 ) -> list[str]:
     """Build the shared scrcpy command used by all recording paths.
 
@@ -73,6 +80,9 @@ def build_scrcpy_record_command(
     ]
     if lock_capture_orientation:
         command.append("--capture-orientation=@")
+    if time_limit_s:
+        # scrcpy stops itself, so a dead host can no longer leave it recording.
+        command.append(f"--time-limit={int(time_limit_s)}")
     return command
 
 

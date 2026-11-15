@@ -25,8 +25,11 @@ from uuid import uuid4
 from artemis.config.paths import get_temp_dir
 from artemis.context import ArtemisContext
 from artemis.drivers.factory import get_driver
+from artemis.runtime.orphan_recordings import reap_orphan_recordings
 from artemis.utils.video import (
     ANDROID_RECORDING_SEGMENT_SECONDS,
+    MAX_RECORDING_SESSION_SECONDS,
+    SCRCPY_SEGMENT_TIME_LIMIT_SECONDS,
     await_scrcpy_first_frame,
     build_scrcpy_record_command,
     get_android_display_state,
@@ -339,7 +342,12 @@ class UnifiedMobileController(UnifiedMobileControllerBase):
         output_dir = session.local_video_path.parent
         new_video_path = output_dir / f"recording_{session.android_segment_index:03d}.mkv"
         process = await self._spawn_scrcpy(
-            build_scrcpy_record_command("scrcpy", session.device_id, new_video_path)
+            build_scrcpy_record_command(
+                "scrcpy",
+                session.device_id,
+                new_video_path,
+                time_limit_s=SCRCPY_SEGMENT_TIME_LIMIT_SECONDS,
+            )
         )
         spawned_at = time.time()
         first_frame_at = await await_scrcpy_first_frame(process, spawned_at)
@@ -375,6 +383,15 @@ class UnifiedMobileController(UnifiedMobileControllerBase):
                 )
                 segment_age = now - (session.android_segment_started_at or session.start_time)
                 crashed = session.process.returncode is not None
+                if not crashed and now - session.start_time >= MAX_RECORDING_SESSION_SECONDS:
+                    logger.warning(
+                        "Recording session reached its"
+                        f" {MAX_RECORDING_SESSION_SECONDS}s cap; stopping instead of rolling"
+                        " another segment."
+                    )
+                    await self._stop_scrcpy(session.process)
+                    self._finalize_current_segment(session, now)
+                    return
                 if not crashed and not rotated and segment_age < ANDROID_RECORDING_SEGMENT_SECONDS:
                     continue
 
@@ -413,6 +430,13 @@ class UnifiedMobileController(UnifiedMobileControllerBase):
         if already_active := recording_already_active(device_id):
             return already_active
 
+        # Anything still recording while no task owns it is a leak (it once grew
+        # to 8.7 GiB); clear it before this session starts its own recorder.
+        try:
+            reap_orphan_recordings(device_id)
+        except Exception as e:  # pragma: no cover - cleanup must never block recording
+            logger.debug(f"Orphan recording sweep failed: {e}")
+
         try:
             if not output_dir:
                 output_dir = Path(
@@ -448,7 +472,12 @@ class UnifiedMobileController(UnifiedMobileControllerBase):
                 session.capture_width, session.capture_height = display_state[1:]
 
             # Start scrcpy in background
-            cmd = build_scrcpy_record_command("scrcpy", device_id, local_video_path)
+            cmd = build_scrcpy_record_command(
+                "scrcpy",
+                device_id,
+                local_video_path,
+                time_limit_s=SCRCPY_SEGMENT_TIME_LIMIT_SECONDS,
+            )
 
             process = await self._spawn_scrcpy(cmd)
             spawned_at = time.time()
