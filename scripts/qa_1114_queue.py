@@ -113,7 +113,12 @@ def clean_log(text: str) -> str:
 
 
 def run_phase(
-    slug: str, phase: str, goal: str, timeout_s: int, lock_package: str | None = None
+    slug: str,
+    phase: str,
+    goal: str,
+    timeout_s: int,
+    lock_package: str | None = None,
+    extra_env: dict | None = None,
 ) -> dict:
     gdir = OUT / slug
     (gdir / "shots").mkdir(parents=True, exist_ok=True)
@@ -130,7 +135,8 @@ def run_phase(
              "--profile", "flash", "--device-serial", DEVICE,
              "--test-name", f"qa1115_{slug}_{phase}", "--standalone"]
             + (["--locked-app", lock_package] if lock_package else []),
-            cwd=str(ROOT), env=BASE_ENV, stdout=fh, stderr=subprocess.STDOUT,
+            cwd=str(ROOT), env={**BASE_ENV, **(extra_env or {})}, stdout=fh,
+            stderr=subprocess.STDOUT,
             start_new_session=True,
         )
         stall_s = 300
@@ -163,6 +169,10 @@ def run_phase(
     m = re.search(r"report_task_status\(\{(.*?)\}\)", body, re.S)
     if m:
         report = m.group(1)[:2500]
+    gate = ""
+    gm = re.search(r"\[REPORT_GATE\] verdict=(pass|fail|inconclusive|timeout)", body, re.I)
+    if gm:
+        gate = gm.group(1).upper()
     return {
         "phase": phase, "wall_s": wall, "returncode": rc, "timed_out": timed_out,
         "turns": len(re.findall(r"Flash Turn \d+", body)),
@@ -170,7 +180,7 @@ def run_phase(
         "deepseek_calls": body.count("api.deepseek.com"),
         "siliconflow_calls": body.count("api.siliconflow.cn"),
         "google_calls": len(re.findall(r"generativelanguage|googleapis\.com/v1", body)),
-        "reported": report, "body_len": len(body),
+        "reported": report, "gate": gate, "body_len": len(body),
     }
 
 
@@ -179,13 +189,18 @@ def verdict_of(phase: dict, timeout_s: int) -> str:
     rep = phase.get("reported") or ""
     if phase.get("timed_out"):
         return "TIMEOUT"
+    gate = (phase.get("gate") or "").upper()
+    if gate in ("PASS", "FAIL", "INCONCLUSIVE", "TIMEOUT"):
+        return gate
     low = rep.lower()
     m = re.search(r"result\s*[=:：]\s*[\"'\s]*(pass|fail|blocked|timeout)", low)
     if m:
         return {"pass": "PASS", "fail": "FAIL", "blocked": "BLOCKED", "timeout": "TIMEOUT"}[m.group(1)]
     m = re.search(r"[\"']?status[\"']?\s*:\s*[\"']?(completed|failed|timeout|error)", low)
     if m:
-        return {"completed": "PASS", "failed": "FAIL",
+        # 'completed' alone proves nothing: three of the last round's four PASSes
+        # had no result= token and only said status=completed.
+        return {"completed": "UNKNOWN", "failed": "FAIL",
                 "timeout": "TIMEOUT", "error": "FAIL"}[m.group(1)]
     if "blocked" in low:
         return "BLOCKED"
@@ -304,13 +319,15 @@ def main() -> int:
             + "若累计游玩达到 40 分钟仍未能满足上述三项，立即 result=TIMEOUT（超时未完成），不要继续尝试。"
             + "report_task_status 汇报 stage=D、result、三项验收各自的证据，"
             + "并写明「角色名：<角色名>」。"
-        ), d_timeout, lock_package=pkg)
+        ), d_timeout, lock_package=pkg, extra_env={"ARTEMIS_FLASH_REPORT_CHECKS": "1"})
         g["phases"].append(d)
         g["d_wall"] = d["wall_s"]
         g["character"] = extract_character(d["reported"]) or g.get("character", "")
         save_status(state)
 
         d_verdict = verdict_of(d, d_timeout)
+        if d_verdict == "UNKNOWN":
+            d_verdict = "INCONCLUSIVE"
         if d_verdict != "PASS":
             g["verdict"] = "TIMEOUT" if (d["timed_out"] or d_verdict == "TIMEOUT") else d_verdict
             g["note"] = f"D 阶段 {g['verdict']}"

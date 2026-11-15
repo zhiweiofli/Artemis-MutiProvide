@@ -298,6 +298,77 @@ REPORT_TASK_STATUS_TOOL = ToolDeclaration(
     },
 )
 
+
+#: The game-QA acceptance checks: a "PASS" must carry a machine-checkable YES/NO
+#: plus the evidence it was seen, because "the entry is visible" used to pass for
+#: "the payment panel opened".
+ACCEPTANCE_CHECKS = ("check_guide_gone", "check_entry_visible", "check_panel_opened")
+
+REPORT_TASK_STATUS_CHECKS_TOOL = ToolDeclaration(
+    name="report_task_status",
+    description=(
+        "[REPORT] Use this tool to return your final answer when you are done"
+        " with the task. This is the ONLY way to return your final conclusion."
+        " Every acceptance check must be answered YES or NO together with the"
+        " evidence you actually saw; a NO or missing evidence is never a PASS."
+    ),
+    parameters={
+        "type": "object",
+        "properties": {
+            "status": {
+                "type": "string",
+                "description": (
+                    "Whether the task was completed successfully ('completed') or"
+                    " failed/unreachable ('failed')."
+                ),
+            },
+            "explanation": {
+                "type": "string",
+                "description": "Provide the final explanation or summary of the task execution.",
+            },
+            "check_guide_gone": {
+                "type": "string",
+                "enum": ["YES", "NO"],
+                "description": "Is the tutorial overlay / pointing hand gone? YES or NO.",
+            },
+            "check_entry_visible": {
+                "type": "string",
+                "enum": ["YES", "NO"],
+                "description": "Is a shop or recharge entry visible on the screen? YES or NO.",
+            },
+            "check_panel_opened": {
+                "type": "string",
+                "enum": ["YES", "NO"],
+                "description": (
+                    "Did the payment/recharge panel actually open (products or price tiers"
+                    " on screen)? Visible entry alone is NO."
+                ),
+            },
+            "evidence": {
+                "type": "object",
+                "description": "For each check, the screenshot name or the exact on-screen text",
+                "properties": {
+                    "guide_gone": {"type": "string"},
+                    "entry_visible": {"type": "string"},
+                    "panel_opened": {"type": "string"},
+                },
+                "required": ["guide_gone", "entry_visible", "panel_opened"],
+            },
+        },
+        "required": [
+            "status",
+            "explanation",
+            *ACCEPTANCE_CHECKS,
+            "evidence",
+        ],
+    },
+)
+
+
+def report_task_status_tool(require_checks: bool = False) -> ToolDeclaration:
+    """The report tool, with the acceptance checks when the task requires them."""
+    return REPORT_TASK_STATUS_CHECKS_TOOL if require_checks else REPORT_TASK_STATUS_TOOL
+
 # Same contract as the Operator's LangChain tool (artemis/tools/explorer_tool.py):
 # the Explorer tier is a user setting, so no tier argument is exposed here.
 ASK_EXPLORER_TOOL = ToolDeclaration(
