@@ -189,6 +189,12 @@ def verdict_of(phase: dict, timeout_s: int) -> str:
     return "UNKNOWN"
 
 
+def e_phase_verdict(phase: dict, timeout_s: int) -> str:
+    """E-stage verdict: an unparseable report is INCONCLUSIVE, never PASS."""
+    v = verdict_of(phase, timeout_s)
+    return "INCONCLUSIVE" if v == "UNKNOWN" else v
+
+
 def extract_character(report: str) -> str:
     for pat in (
         r"角色名\s*[:：]\s*[『「\"]?([^\s，,。；;\\『』「」\"]+)",
@@ -321,7 +327,7 @@ def main() -> int:
         ), 1200)
         g["phases"].append(e)
         g["total_wall"] = round(time.time() - game_t0, 1)
-        g["verdict"] = "PASS" if verdict_of(e, 1200) in ("PASS", "UNKNOWN") else verdict_of(e, 1200)
+        g["verdict"] = e_phase_verdict(e, 1200)
         all_body = clean_log((OUT / slug / "run_BC.log").read_text(errors="ignore"))
         if not g["character"]:
             g["character"] = extract_character(all_body)
