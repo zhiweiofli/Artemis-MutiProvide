@@ -53,6 +53,7 @@ from langchain_core.messages import (
     ToolMessage,
 )
 
+from artemis.agents.flash.preflight import ensure_foreground, expected_package
 from artemis.agents.flash.summarizer import VisualStepSummarizer, build_focus_context
 from artemis.agents.operator.prompts import REASONING_REMINDER, UserGuidance, render_user_guidance
 from artemis.agents.validator.tool_declarations import (
@@ -73,6 +74,7 @@ from artemis.config import (
 )
 from artemis.context import ArtemisContext
 from artemis.controllers.unified_controller import UnifiedMobileController
+from artemis.drivers.factory import get_driver
 from artemis.data_engine.trace import trace
 from artemis.graph.perception import _check_injected_instruction_file
 from artemis.graph.state import State
@@ -506,6 +508,31 @@ class FlashRunner:
         if step_token_usage and step_token_usage.get("total_tokens", 0) > 0:
             return step_token_usage, True
         return self._estimate_token_usage(messages, raw_text), False
+
+    async def _relaunch_locked_app(self, package: str) -> None:
+        """The single relaunch the foreground check is allowed before giving up."""
+        driver = get_driver(self.ctx)
+        launched = await driver.launch_app(package)
+        if not launched:
+            logger.warning(f"Relaunch of '{package}' was not acknowledged by the driver.")
+
+    def _record_preflight_failure(self, reason: str, seen: str | None) -> None:
+        """Writes the foreground-mismatch verdict to the session trace."""
+        if not self.ctx.data_engine:
+            return
+        try:
+            self.ctx.data_engine.record_trace(
+                type="preflight",
+                name="foreground_check",
+                payload={
+                    "expected_package": expected_package(self.ctx),
+                    "seen_package": seen,
+                    "reason": reason,
+                },
+                status="failed",
+            )
+        except Exception as e:  # pragma: no cover - trace must never hide the refusal
+            logger.warning(f"Failed to record the preflight trace: {e}")
 
     def _record_llm_trace(self, step_token_usage: dict, raw_text: str) -> None:
         """Records the llm_call trace for this turn in the DataEngine."""
@@ -1044,6 +1071,15 @@ class FlashRunner:
             f"Starting Artemis Flash reactive loop for goal: {self.goal}"
             f" (turn limit: {limit if limit else 'unlimited'})"
         )
+
+        # 0. Stage boundary: the locked app must own the screen before the
+        # first frame is captured, so a previous game's residue can never be
+        # mistaken for this task's state (no lock on the task -> no-op).
+        ok, reason, seen = await ensure_foreground(self.ctx, launch=self._relaunch_locked_app)
+        if not ok:
+            logger.error(f"Refusing to start: {reason}")
+            self._record_preflight_failure(reason, seen)
+            return {"status": "failed", "explanation": reason, "preflight": "foreground_mismatch"}
 
         # 1. Initialize Universal LLM via Service Layer
         llm = self._init_llm()

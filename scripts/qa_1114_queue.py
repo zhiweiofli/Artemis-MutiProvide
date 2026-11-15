@@ -112,7 +112,9 @@ def clean_log(text: str) -> str:
     return re.sub(r"\x1b\[[0-9;]*m", "", text)
 
 
-def run_phase(slug: str, phase: str, goal: str, timeout_s: int) -> dict:
+def run_phase(
+    slug: str, phase: str, goal: str, timeout_s: int, lock_package: str | None = None
+) -> dict:
     gdir = OUT / slug
     (gdir / "shots").mkdir(parents=True, exist_ok=True)
     log = gdir / f"run_{phase}.log"
@@ -126,7 +128,8 @@ def run_phase(slug: str, phase: str, goal: str, timeout_s: int) -> dict:
         proc = subprocess.Popen(
             ["uv", "run", "python", "-m", "artemis.main", "run", goal,
              "--profile", "flash", "--device-serial", DEVICE,
-             "--test-name", f"qa1115_{slug}_{phase}", "--standalone"],
+             "--test-name", f"qa1115_{slug}_{phase}", "--standalone"]
+            + (["--locked-app", lock_package] if lock_package else []),
             cwd=str(ROOT), env=BASE_ENV, stdout=fh, stderr=subprocess.STDOUT,
             start_new_session=True,
         )
@@ -275,7 +278,7 @@ def main() -> int:
             + "若出现「链接已失效」「登录失败」「维护」等确定性失败提示，直接汇报不要重试。"
             + "到达角色创建或游戏内场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、"
             + "并用「角色名：<你看到的角色名，若无则写 未创建>」写明角色。"
-        ), 900)
+        ), 900, lock_package=pkg)
         g["phases"].append(bc)
         save_status(state)
         if verdict_of(bc, 900) in ("BLOCKED", "FAIL", "TIMEOUT"):
@@ -301,7 +304,7 @@ def main() -> int:
             + "若累计游玩达到 40 分钟仍未能满足上述三项，立即 result=TIMEOUT（超时未完成），不要继续尝试。"
             + "report_task_status 汇报 stage=D、result、三项验收各自的证据，"
             + "并写明「角色名：<角色名>」。"
-        ), d_timeout)
+        ), d_timeout, lock_package=pkg)
         g["phases"].append(d)
         g["d_wall"] = d["wall_s"]
         g["character"] = extract_character(d["reported"]) or g.get("character", "")
@@ -324,7 +327,7 @@ def main() -> int:
             + "其中商店/充值入口必须再次打开并截图。"
             + "最终给出逐按钮结果表（按钮名 / 是否有反应 / 页面是否正常）。"
             + "report_task_status 汇报 stage=E、result、逐按钮表。"
-        ), 1200)
+        ), 1200, lock_package=pkg)
         g["phases"].append(e)
         g["total_wall"] = round(time.time() - game_t0, 1)
         g["verdict"] = e_phase_verdict(e, 1200)
