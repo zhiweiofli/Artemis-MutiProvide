@@ -1,0 +1,27 @@
+[
+ {
+  "name": "llm_fallback",
+  "category": "unknown",
+  "n": 2
+ },
+ {
+  "name": "llm_gave_up",
+  "category": "authentication",
+  "n": 2
+ },
+ {
+  "name": "llm_gave_up",
+  "category": "unknown",
+  "n": 2
+ },
+ {
+  "name": "llm_pause",
+  "category": null,
+  "n": 3
+ },
+ {
+  "name": "llm_retry",
+  "category": null,
+  "n": 13
+ }
+]

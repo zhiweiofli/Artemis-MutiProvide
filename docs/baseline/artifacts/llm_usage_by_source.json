@@ -1,0 +1,30 @@
+[
+ {
+  "src": "deepseek:deepseek-flash",
+  "calls": 4777,
+  "prompt": 61200039,
+  "completion": 2489066,
+  "cached": 41206016
+ },
+ {
+  "src": "qwen:Qwen/Qwen3-VL-30B-A3B-Instruct",
+  "calls": 276,
+  "prompt": 658158,
+  "completion": 13624,
+  "cached": 0
+ },
+ {
+  "src": "google:gemini-3.8-flash",
+  "calls": 25,
+  "prompt": 246371,
+  "completion": 5707,
+  "cached": 81274
+ },
+ {
+  "src": "google:gemini-3.5-flash-lite",
+  "calls": 18,
+  "prompt": 62129,
+  "completion": 1624,
+  "cached": 0
+ }
+]

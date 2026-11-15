@@ -1,0 +1,632 @@
+[
+ {
+  "session_id": "999dcae3-b6b5-4f3e-98c6-c4f9c6770d77",
+  "initial_goal": "Open Settings and check Battery level",
+  "start_time": 1794582024.357892,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/p4_smoke_flash_PASS_2026-11-13T23-00-24/recording.mp4",
+  "pid": 61100
+ },
+ {
+  "session_id": "24926c05-52cb-4e6d-81fd-b4fc59f8efd5",
+  "initial_goal": "Open Settings and check Battery level",
+  "start_time": 1794582093.19212,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/p4_smoke_gemini_baseline_PASS_2026-11-13T23-01-33/recording.mp4",
+  "pid": 61997
+ },
+ {
+  "session_id": "e838ab02-0d60-40d6-9405-a429b5717c9e",
+  "initial_goal": "Open Settings and check Battery level",
+  "start_time": 1794582794.376297,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/p4_e2e_r0_gemini_baseline_PASS_2026-11-13T23-13-14/recording.mp4",
+  "pid": 71422
+ },
+ {
+  "session_id": "7d639304-fb96-41c5-88ae-32a38b4a425c",
+  "initial_goal": "Open Settings and check Battery level",
+  "start_time": 1794582869.098315,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/p4_e2e_r0_ds_qwen_hybrid_PASS_2026-11-13T23-14-28/recording.mp4",
+  "pid": 72992
+ },
+ {
+  "session_id": "f78249bd-04fd-4746-8f47-c25dca5977f3",
+  "initial_goal": "Open Settings and check Battery level",
+  "start_time": 1794582891.3486888,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/p4_e2e_r1_gemini_baseline_PASS_2026-11-13T23-14-51/recording.mp4",
+  "pid": 73452
+ },
+ {
+  "session_id": "e73d8442-56f7-48bf-896a-2bb3d2eb6e66",
+  "initial_goal": "Open Settings and check Battery level",
+  "start_time": 1794582956.354697,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/p4_e2e_r1_ds_qwen_hybrid_PASS_2026-11-13T23-15-56/recording.mp4",
+  "pid": 74854
+ },
+ {
+  "session_id": "8d3273ed-1eef-4e2f-b55d-5454b5131b37",
+  "initial_goal": "Open Settings and check Battery level",
+  "start_time": 1794582979.295706,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/p4_e2e_r2_gemini_baseline_PASS_2026-11-13T23-16-19/recording.mp4",
+  "pid": 75409
+ },
+ {
+  "session_id": "a313908c-9b3f-44e1-9a2d-35849f2999c3",
+  "initial_goal": "Open Settings and check Battery level",
+  "start_time": 1794583036.035139,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/p4_e2e_r2_ds_qwen_hybrid_PASS_2026-11-13T23-17-15/recording.mp4",
+  "pid": 76579
+ },
+ {
+  "session_id": "36107e41-926b-4d1c-8b38-dce3d4caaa9e",
+  "initial_goal": "Open Settings and check Battery level",
+  "start_time": 1794583058.2750568,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/p4_e2e_r3_gemini_baseline_PASS_2026-11-13T23-17-38/recording.mp4",
+  "pid": 77082
+ },
+ {
+  "session_id": "d4384c7c-c3e0-474c-b87a-849338308956",
+  "initial_goal": "Open Settings and check Battery level",
+  "start_time": 1794583112.170822,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/p4_e2e_r3_ds_qwen_hybrid_PASS_2026-11-13T23-18-32/recording.mp4",
+  "pid": 78221
+ },
+ {
+  "session_id": "d9669661-220c-4e08-9763-30f3b8f980dc",
+  "initial_goal": "Open Settings and check Battery level",
+  "start_time": 1794583134.6491141,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/p4_e2e_r4_gemini_baseline_PASS_2026-11-13T23-18-54/recording.mp4",
+  "pid": 78730
+ },
+ {
+  "session_id": "94bacfbd-5906-409d-8660-7c649020518a",
+  "initial_goal": "Open Settings and check Battery level",
+  "start_time": 1794583193.069459,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/p4_e2e_r4_ds_qwen_hybrid_PASS_2026-11-13T23-19-52/recording.mp4",
+  "pid": 79986
+ },
+ {
+  "session_id": "0a2f9fc2-c1ff-49b6-9f5d-0906c4d39982",
+  "initial_goal": "寻找桌面上的网游SDKdemo（名称可能为网游Demo或Demo），打开它并点击登录按钮，在弹出的登录弹窗中触发一次登录请求，观察并收集最终登录结果（成功/失败原因、账号提示或界面状态）",
+  "start_time": 1794585821.054176,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/e2e_sdk_demo_gemini_baseline_PASS_2026-11-14T00-03-40/recording.mp4",
+  "pid": 30343
+ },
+ {
+  "session_id": "684de6e0-d0dc-4024-b63a-e6465cad614c",
+  "initial_goal": "寻找桌面上的网游SDKdemo（名称可能为网游Demo或Demo），打开它并点击登录按钮，在弹出的登录弹窗中触发一次登录请求，观察并收集最终登录结果（成功/失败原因、账号提示或界面状态）",
+  "start_time": 1794586023.1989388,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/e2e_sdk_demo_ds_qwen_hybrid_PASS_2026-11-14T00-07-03/recording.mp4",
+  "pid": 32867
+ },
+ {
+  "session_id": "4b62f23f-3509-4f9a-bdd7-6ef4a8122648",
+  "initial_goal": "你是 Android 手游质检员。严格按步骤执行，只汇报你亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED。2. 严禁点击最终付款，严禁输入支付密码。3. 出现明确失败提示视为确定结果，立即汇报，不要反复试探。任务：在九游App中点击首页「即将上线」右侧的「更多」，选择「新游首发」筛选，找到游戏《大圣》（11-12 11:30 首发），点击其「下载」按钮，等待下载与安装完成；若弹出系统安装确认，点「安装」。安装完成后用 report_task_status 汇报 stage=A result=PASS/FAIL 与证据。",
+  "start_time": 1794625715.358361,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1114_dasheng_A_PASS_2026-11-14T11-08-35/recording.mp4",
+  "pid": 61716
+ },
+ {
+  "session_id": "715d27b7-78fd-4e26-9378-efd8f1e34e98",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击最终付款，严禁输入支付密码。3. 出现明确失败提示（版本过旧、网络错误、维护、闪退）立即汇报，不要反复试探。4. 游戏画面无 UI 树时用视觉定位，每次点击后确认画面变化。任务（阶段B+C）：打开游戏《大圣》（包名 com.qjyx.android.ds.aligames）。同意必要的用户协议与权限弹窗，等待资源更新和SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。到达角色创建或游戏场景后，用 report_task_status 汇报 stage=B+C，result=PASS/FAIL/BLOCKED，以及你看到的证据。",
+  "start_time": 1794625821.3308082,
+  "status": "failed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": null,
+  "pid": 63321
+ },
+ {
+  "session_id": "5a79d7b3-3ca2-4846-b124-d7e78484c7cc",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击最终付款，严禁输入支付密码。3. 出现明确失败提示（版本过旧、网络错误、维护、闪退）立即汇报，不要反复试探。4. 游戏画面无 UI 树时用视觉定位，每次点击后确认画面变化。任务（阶段B+C）：打开游戏《大圣》（包名 com.qjyx.android.ds.aligames）。同意必要的用户协议与权限弹窗，等待资源更新和SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。到达角色创建或游戏场景后，用 report_task_status 汇报 stage=B+C，result=PASS/FAIL/BLOCKED，以及你看到的证据。",
+  "start_time": 1794626098.772676,
+  "status": "failed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": null,
+  "pid": 66189
+ },
+ {
+  "session_id": "6ec0dd97-9147-4df4-9d47-1e1972d25e09",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码；充值面板出现只截图后返回。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）视为确定结果，立即 report_task_status 汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面无 UI 树时用视觉定位，每次点击后确认画面变化。任务（阶段A 下载安装）：打开九游App，进入首页「即将上线」右侧「更多」，选「新游首发」筛选，找到《一点三国》（11-12 10:00 首发），点击其「下载」按钮，等待下载与安装完成；若弹出系统安装确认，点「安装」。完成后 report_task_status 汇报 stage=A、result=PASS/FAIL、证据。",
+  "start_time": 1794626632.679481,
+  "status": "failed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": null,
+  "pid": 72328
+ },
+ {
+  "session_id": "a4d2fb38-990d-4c6b-bf88-4bc3a818c745",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码；充值面板出现只截图后返回。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）视为确定结果，立即 report_task_status 汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面无 UI 树时用视觉定位，每次点击后确认画面变化。任务（阶段A 下载安装）：打开九游（包名 cn.ninegame.gamemanager），进入首页「即将上线」右侧「更多」，选「新游首发」筛选，找到《一点三国》（11-12 10:00 首发），点击其「下载」按钮，等待下载与安装完成；若弹出系统安装确认，点「安装」。完成后 report_task_status 汇报 stage=A、result=PASS/FAIL、证据。",
+  "start_time": 1794627377.38194,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1114_yidiansanguo_A_PASS_2026-11-14T11-36-17/recording.mp4",
+  "pid": 80842
+ },
+ {
+  "session_id": "660e183b-4732-45e4-959b-d3c050700441",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码；充值面板出现只截图后返回。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）视为确定结果，立即 report_task_status 汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面无 UI 树时用视觉定位，每次点击后确认画面变化。任务（阶段B+C 启动与登录）：打开游戏《一点三国》（包名 com.gzhh.ydsg.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。到达角色创建或游戏场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、证据。",
+  "start_time": 1794627532.4725811,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1114_yidiansanguo_BC_PASS_2026-11-14T11-38-52/recording.mp4",
+  "pid": 82919
+ },
+ {
+  "session_id": "e6750112-c9cf-4b40-b441-08e47f925000",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码；充值面板出现只截图后返回。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）视为确定结果，立即 report_task_status 汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面无 UI 树时用视觉定位，每次点击后确认画面变化。任务（阶段D 新手引导）在《一点三国》里按引导提示逐步操作：点击高亮区域、跳过剧情对话、选择默认角色或推荐选项。完成标记任一满足即 PASS：(a) 引导遮罩与引导手指消失，且界面上可见充值、首充、商城或钻石+入口；(b) 已累计游玩超过30分钟。连续8步画面无变化则判 FAIL（卡引导），附最后画面描述。report_task_status 汇报 stage=D、result、证据。",
+  "start_time": 1794627708.1301389,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1114_yidiansanguo_D_PASS_2026-11-14T11-41-48/recording.mp4",
+  "pid": 85284
+ },
+ {
+  "session_id": "4de4e676-42ea-4a4a-9325-1738894c6cc9",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码；充值面板出现只截图后返回。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）视为确定结果，立即 report_task_status 汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面无 UI 树时用视觉定位，每次点击后确认画面变化。任务（阶段E 主界面巡检）在《一点三国》主界面：先列出所有可点击功能按钮（背包、角色、活动、邮件、商城、充值、设置等），逐个点击，点击后确认页面有变化且加载正常，再关闭或返回主界面，再点下一个。点开充值面板只截图，不付款，立即返回。最终报告每个按钮：按钮名、是否有反应、页面是否正常。report_task_status 汇报 stage=E、result、逐按钮结果表。",
+  "start_time": 1794628155.406972,
+  "status": "failed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": null,
+  "pid": 91611
+ },
+ {
+  "session_id": "f65e52ae-176e-4ddd-89ac-18874109f2c7",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码；充值面板出现只截图后返回。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）视为确定结果，立即 report_task_status 汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面无 UI 树时用视觉定位，每次点击后确认画面变化。任务（阶段A 下载安装）：打开九游（包名 cn.ninegame.gamemanager），进入首页「即将上线」右侧「更多」，选「新游首发」筛选，找到《一剑断念》（11-13 09:00 首发），点击其「下载」按钮，等待下载与安装完成；若弹出系统安装确认，点「安装」。完成后 report_task_status 汇报 stage=A、result=PASS/FAIL、证据。",
+  "start_time": 1794629025.25963,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1114_yijianduannian_A_PASS_2026-11-14T12-03-45/recording.mp4",
+  "pid": 1853
+ },
+ {
+  "session_id": "db3c84d2-35b7-4787-b56e-122f2034b69b",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码；充值面板出现只截图后返回。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）视为确定结果，立即 report_task_status 汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面无 UI 树时用视觉定位，每次点击后确认画面变化。任务（阶段B+C 启动与登录）：打开游戏《一剑断念》（包名 com.qy.yjdn1.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。到达角色创建或游戏场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、证据。",
+  "start_time": 1794629222.0792608,
+  "status": "failed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1114_yijianduannian_BC_FAIL_2026-11-14T12-07-01/recording.mp4",
+  "pid": 4327
+ },
+ {
+  "session_id": "cc75993a-2e1d-44f6-bd6e-f7d8c25c3017",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码；充值面板出现只截图后返回。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）视为确定结果，立即 report_task_status 汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面无 UI 树时用视觉定位，每次点击后确认画面变化。任务（阶段A 下载安装）：打开九游（包名 cn.ninegame.gamemanager），进入首页「即将上线」右侧「更多」，选「新游首发」筛选，找到《斗破苍穹：异火降世》（11-13 10:00 首发），点击其「下载」按钮，等待下载与安装完成；若弹出系统安装确认，点「安装」。完成后 report_task_status 汇报 stage=A、result=PASS/FAIL、证据。",
+  "start_time": 1794629539.219935,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 2160, \"device_height\": 1080, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1114_doupo_A_PASS_2026-11-14T12-12-19/recording.mp4",
+  "pid": 8406
+ },
+ {
+  "session_id": "40803051-b17c-4a6c-abdb-aa07f896188d",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码；充值面板出现只截图后返回。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）视为确定结果，立即 report_task_status 汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面无 UI 树时用视觉定位，每次点击后确认画面变化。任务（阶段B+C 启动与登录）：打开游戏《斗破苍穹：异火降世》（包名 com.rastar.dpcqyhjs.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。到达角色创建或游戏场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、证据。",
+  "start_time": 1794629684.7158651,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1114_doupo_BC_PASS_2026-11-14T12-14-44/recording.mp4",
+  "pid": 10315
+ },
+ {
+  "session_id": "3feafb5d-f6fe-4ff3-887c-93b9bc01e01d",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码；充值面板出现只截图后返回。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）视为确定结果，立即 report_task_status 汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面无 UI 树时用视觉定位，每次点击后确认画面变化。任务（阶段D 新手引导）在《斗破苍穹：异火降世》里按引导提示逐步操作：点击高亮区域、跳过剧情对话、选择默认角色或推荐选项。完成标记任一满足即 PASS：(a) 引导遮罩与引导手指消失，且界面上可见充值、首充、商城或钻石+入口；(b) 已累计游玩超过30分钟。连续8步画面无变化则判 FAIL（卡引导），附最后画面描述。report_task_status 汇报 stage=D、result、证据。",
+  "start_time": 1794629855.577445,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1114_doupo_D_PASS_2026-11-14T12-17-35/recording.mp4",
+  "pid": 12577
+ },
+ {
+  "session_id": "65d6b790-57f2-4e0f-ae44-557eeb633d6b",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码；充值面板出现只截图后返回。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）视为确定结果，立即 report_task_status 汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面无 UI 树时用视觉定位，每次点击后确认画面变化。任务（阶段E 主界面巡检）在《斗破苍穹：异火降世》主界面：先列出所有可点击功能按钮（背包、角色、活动、邮件、商城、充值、设置等），逐个点击，点击后确认页面有变化且加载正常，再关闭或返回主界面，再点下一个。点开充值面板只截图，不付款，立即返回。最终报告每个按钮：按钮名、是否有反应、页面是否正常。report_task_status 汇报 stage=E、result、逐按钮结果表。",
+  "start_time": 1794631600.4080331,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1114_doupo_E_PASS_2026-11-14T12-46-40/recording.mp4",
+  "pid": 36429
+ },
+ {
+  "session_id": "d23dbae1-29fb-4fcd-a175-2b27443ba8d7",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码；充值面板出现只截图后返回。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）视为确定结果，立即 report_task_status 汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面无 UI 树时用视觉定位，每次点击后确认画面变化。任务（阶段B+C 启动与登录）：打开游戏《一剑断念》（包名 com.qy.yjdn1.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。到达角色创建或游戏场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、证据。",
+  "start_time": 1794641051.0204952,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1114_yijianduannian_BC_PASS_2026-11-14T15-24-10/recording.mp4",
+  "pid": 24286
+ },
+ {
+  "session_id": "8d2e7675-7184-4f59-adba-7652f29005d4",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码；充值面板出现只截图后返回。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）视为确定结果，立即 report_task_status 汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面无 UI 树时用视觉定位，每次点击后确认画面变化。任务（阶段D 新手引导）在《一剑断念》里按引导提示逐步操作：点击高亮区域、跳过剧情对话、选择默认角色或推荐选项。完成标记任一满足即 PASS：(a) 引导遮罩与引导手指消失，且界面上可见充值、首充、商城或钻石+入口；(b) 已累计游玩超过30分钟。连续8步画面无变化则判 FAIL（卡引导），附最后画面描述。report_task_status 汇报 stage=D、result、证据。",
+  "start_time": 1794641206.0085912,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 2160, \"device_height\": 1080, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1114_yijianduannian_D_PASS_2026-11-14T15-26-45/recording.mp4",
+  "pid": 26345
+ },
+ {
+  "session_id": "3bbb16aa-624a-46c1-a90d-3abc66bcbe02",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码；充值面板出现只截图后返回。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）视为确定结果，立即 report_task_status 汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面无 UI 树时用视觉定位，每次点击后确认画面变化。任务（阶段E 主界面巡检）在《一剑断念》主界面：先列出所有可点击功能按钮（背包、角色、活动、邮件、商城、充值、设置等），逐个点击，点击后确认页面有变化且加载正常，再关闭或返回主界面，再点下一个。点开充值面板只截图，不付款，立即返回。最终报告每个按钮：按钮名、是否有反应、页面是否正常。report_task_status 汇报 stage=E、result、逐按钮结果表。",
+  "start_time": 1794641472.348468,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 2160, \"device_height\": 1080, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1114_yijianduannian_E_PASS_2026-11-14T15-31-12/recording.mp4",
+  "pid": 42173
+ },
+ {
+  "session_id": "410c9236-7e2b-49d7-9295-a7a35841954a",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码；充值面板出现只截图后返回。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）视为确定结果，立即 report_task_status 汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面无 UI 树时用视觉定位，每次点击后确认画面变化。任务（阶段A 下载安装）：打开九游（包名 cn.ninegame.gamemanager），进入首页「即将上线」右侧「更多」，选「新游首发」筛选，找到《冲吧勇者》（11-13 08:00 计费删档内测），点击其「下载」按钮，等待下载与安装完成；若弹出系统安装确认，点「安装」。完成后 report_task_status 汇报 stage=A、result=PASS/FAIL、证据。",
+  "start_time": 1794662950.104681,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1114_chongba_A_PASS_2026-11-14T21-29-10/recording.mp4",
+  "pid": 9694
+ },
+ {
+  "session_id": "8126a82e-cc1d-444b-93e1-c503b87ecbd9",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码；充值面板出现只截图后返回。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）视为确定结果，立即 report_task_status 汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面无 UI 树时用视觉定位，每次点击后确认画面变化。任务（阶段B+C 启动与登录）：打开游戏《冲吧勇者》（包名 com.yxa.sgwgcbyzyh.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。到达角色创建或游戏场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、证据。",
+  "start_time": 1794663103.380875,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1114_chongba_BC_PASS_2026-11-14T21-31-43/recording.mp4",
+  "pid": 26156
+ },
+ {
+  "session_id": "872aa6bc-1d45-4cac-9181-eab6fc4522e8",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码；充值面板出现只截图后返回。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）视为确定结果，立即 report_task_status 汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面无 UI 树时用视觉定位，每次点击后确认画面变化。任务（阶段D 新手引导）在《冲吧勇者》里按引导提示逐步操作：点击高亮区域、跳过剧情对话、选择默认角色或推荐选项。完成标记任一满足即 PASS：(a) 引导遮罩与引导手指消失，且界面上可见充值、首充、商城或钻石+入口；(b) 已累计游玩超过30分钟。连续8步画面无变化则判 FAIL（卡引导），附最后画面描述。report_task_status 汇报 stage=D、result、证据。",
+  "start_time": 1794663317.682328,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1114_chongba_D_PASS_2026-11-14T21-35-17/recording.mp4",
+  "pid": 30990
+ },
+ {
+  "session_id": "29824861-8729-4e63-a701-ce0086cb3a92",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码；充值面板出现只截图后返回。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）视为确定结果，立即 report_task_status 汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面无 UI 树时用视觉定位，每次点击后确认画面变化。任务（阶段E 主界面巡检）在《冲吧勇者》主界面：先列出所有可点击功能按钮（背包、角色、活动、邮件、商城、充值、设置等），逐个点击，点击后确认页面有变化且加载正常，再关闭或返回主界面，再点下一个。点开充值面板只截图，不付款，立即返回。最终报告每个按钮：按钮名、是否有反应、页面是否正常。report_task_status 汇报 stage=E、result、逐按钮结果表。",
+  "start_time": 1794665105.2313979,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1114_chongba_E_PASS_2026-11-14T22-05-05/recording.mp4",
+  "pid": 64500
+ },
+ {
+  "session_id": "024fde65-5b9f-4470-a399-16e9f028b76f",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。任务（阶段B+C 启动与登录）：打开游戏《大圣》（包名 com.qjyx.android.ds.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。若出现「链接已失效」「登录失败」「维护」等确定性失败提示，直接汇报不要重试。到达角色创建或游戏内场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、并用「角色名：<你看到的角色名，若无则写 未创建>」写明角色。",
+  "start_time": 1794673629.94413,
+  "status": "failed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_dasheng_BC_FAIL_2026-11-15T00-27-09/recording.mp4",
+  "pid": 69411
+ },
+ {
+  "session_id": "9dd36d7e-6f2a-424f-a85b-033dea740170",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。任务（阶段B+C 启动与登录）：打开游戏《一点三国》（包名 com.gzhh.ydsg.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。若出现「链接已失效」「登录失败」「维护」等确定性失败提示，直接汇报不要重试。到达角色创建或游戏内场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、并用「角色名：<你看到的角色名，若无则写 未创建>」写明角色。",
+  "start_time": 1794673693.57551,
+  "status": "failed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_yidiansanguo_BC_FAIL_2026-11-15T00-28-13/recording.mp4",
+  "pid": 70808
+ },
+ {
+  "session_id": "6d03498f-b58d-4fa2-83d3-0d963f7672ae",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。任务（阶段B+C 启动与登录）：打开游戏《大圣》（包名 com.qjyx.android.ds.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。若出现「链接已失效」「登录失败」「维护」等确定性失败提示，直接汇报不要重试。到达角色创建或游戏内场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、并用「角色名：<你看到的角色名，若无则写 未创建>」写明角色。",
+  "start_time": 1794712030.091904,
+  "status": "failed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"uiautomator\", \"hierarchy_backend_note\": \"UI hierarchy source: UIAutomator2.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_dasheng_BC_FAIL_2026-11-15T11-07-10/recording.mp4",
+  "pid": 99842
+ },
+ {
+  "session_id": "676369c3-e45e-4230-8eaa-9d8df6b177ab",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。任务（阶段B+C 启动与登录）：打开游戏《一点三国》（包名 com.gzhh.ydsg.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。若出现「链接已失效」「登录失败」「维护」等确定性失败提示，直接汇报不要重试。到达角色创建或游戏内场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、并用「角色名：<你看到的角色名，若无则写 未创建>」写明角色。",
+  "start_time": 1794712163.6607401,
+  "status": "failed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_yidiansanguo_BC_FAIL_2026-11-15T11-09-23/recording.mp4",
+  "pid": 2917
+ },
+ {
+  "session_id": "7f6da534-e6f6-4cfd-b74b-fc76611292d7",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。任务（阶段B+C 启动与登录）：打开游戏《一剑断念》（包名 com.qy.yjdn1.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。若出现「链接已失效」「登录失败」「维护」等确定性失败提示，直接汇报不要重试。到达角色创建或游戏内场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、并用「角色名：<你看到的角色名，若无则写 未创建>」写明角色。",
+  "start_time": 1794712197.206903,
+  "status": "failed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_yijianduannian_BC_FAIL_2026-11-15T11-09-57/recording.mp4",
+  "pid": 3627
+ },
+ {
+  "session_id": "019828f8-7c30-4d77-b59d-44a355c270f7",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。任务（阶段B+C 启动与登录）：打开游戏《斗破苍穹：异火降世》（包名 com.rastar.dpcqyhjs.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。若出现「链接已失效」「登录失败」「维护」等确定性失败提示，直接汇报不要重试。到达角色创建或游戏内场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、并用「角色名：<你看到的角色名，若无则写 未创建>」写明角色。",
+  "start_time": 1794712240.364355,
+  "status": "failed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_doupo_BC_FAIL_2026-11-15T11-10-40/recording.mp4",
+  "pid": 4639
+ },
+ {
+  "session_id": "22e1762d-7156-4739-a7a0-243886332e7b",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。任务（阶段B+C 启动与登录）：打开游戏《冲吧勇者》（包名 com.yxa.sgwgcbyzyh.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。若出现「链接已失效」「登录失败」「维护」等确定性失败提示，直接汇报不要重试。到达角色创建或游戏内场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、并用「角色名：<你看到的角色名，若无则写 未创建>」写明角色。",
+  "start_time": 1794712273.674229,
+  "status": "failed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_chongba_BC_FAIL_2026-11-15T11-11-13/recording.mp4",
+  "pid": 5359
+ },
+ {
+  "session_id": "d4fd6797-ea57-4315-9fec-cde5248ff5fb",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。任务（阶段B+C 启动与登录）：打开游戏《一点三国》（包名 com.gzhh.ydsg.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。若出现「链接已失效」「登录失败」「维护」等确定性失败提示，直接汇报不要重试。到达角色创建或游戏内场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、并用「角色名：<你看到的角色名，若无则写 未创建>」写明角色。",
+  "start_time": 1794712378.6793659,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_yidiansanguo_BC_PASS_2026-11-15T11-12-58/recording.mp4",
+  "pid": 7578
+ },
+ {
+  "session_id": "fc025886-3e0a-420d-a026-b6286aee31c1",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。任务（阶段D 新手引导与支付验证）在《一点三国》里按引导提示逐步操作：点击高亮区域、跳过剧情对话、选择默认角色或推荐选项，直到引导遮罩与引导手指完全消失。然后完成三项验收，缺一不可：① 引导遮罩与手指消失（连续等待两次 4 秒后确认不回弹）；② 主界面可见商店或充值入口（按钮、横幅、或资源旁的「+」均可）；③ 实际点开该商店/充值入口，确认支付或充值面板成功弹出（看到商品、金额或档位即可），截图后立即按返回退出，严禁点击任何付款或确认支付。三项全部满足 → result=PASS。若累计游玩达到 40 分钟仍未能满足上述三项，立即 result=TIMEOUT（超时未完成），不要继续尝试。report_task_status 汇报 stage=D、result、三项验收各自的证据，并写明「角色名：<角色名>」。",
+  "start_time": 1794712454.2386858,
+  "status": "failed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": null,
+  "pid": 9183
+ },
+ {
+  "session_id": "1504b472-28d4-42d0-a246-d7089866cdec",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段B+C 启动与登录）：打开游戏《大圣》（包名 com.qjyx.android.ds.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。若出现「链接已失效」「登录失败」「维护」等确定性失败提示，直接汇报不要重试。到达角色创建或游戏内场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、并用「角色名：<你看到的角色名，若无则写 未创建>」写明角色。",
+  "start_time": 1794712826.614909,
+  "status": "failed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_dasheng_BC_FAIL_2026-11-15T11-20-26/recording.mp4",
+  "pid": 17597
+ },
+ {
+  "session_id": "e74da127-b0d7-4c6d-a121-6b403bd7e7d7",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段B+C 启动与登录）：打开游戏《一点三国》（包名 com.gzhh.ydsg.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。若出现「链接已失效」「登录失败」「维护」等确定性失败提示，直接汇报不要重试。到达角色创建或游戏内场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、并用「角色名：<你看到的角色名，若无则写 未创建>」写明角色。",
+  "start_time": 1794712893.181333,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_yidiansanguo_BC_PASS_2026-11-15T11-21-33/recording.mp4",
+  "pid": 19126
+ },
+ {
+  "session_id": "42980182-fcb9-4fc1-b169-87e9fe773799",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段B+C 启动与登录）：打开游戏《一剑断念》（包名 com.qy.yjdn1.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。若出现「链接已失效」「登录失败」「维护」等确定性失败提示，直接汇报不要重试。到达角色创建或游戏内场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、并用「角色名：<你看到的角色名，若无则写 未创建>」写明角色。",
+  "start_time": 1794712969.00435,
+  "status": "failed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": null,
+  "pid": 20777
+ },
+ {
+  "session_id": "2e60408c-5998-43b9-a914-575221d07325",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段B+C 启动与登录）：打开游戏《大圣》（包名 com.qjyx.android.ds.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。若出现「链接已失效」「登录失败」「维护」等确定性失败提示，直接汇报不要重试。到达角色创建或游戏内场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、并用「角色名：<你看到的角色名，若无则写 未创建>」写明角色。",
+  "start_time": 1794712995.327064,
+  "status": "failed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_dasheng_BC_FAIL_2026-11-15T11-23-15/recording.mp4",
+  "pid": 21463
+ },
+ {
+  "session_id": "82fbe73c-ba04-4c05-b29f-fd710b2b6283",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段B+C 启动与登录）：打开游戏《一点三国》（包名 com.gzhh.ydsg.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。若出现「链接已失效」「登录失败」「维护」等确定性失败提示，直接汇报不要重试。到达角色创建或游戏内场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、并用「角色名：<你看到的角色名，若无则写 未创建>」写明角色。",
+  "start_time": 1794713062.331805,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_yidiansanguo_BC_PASS_2026-11-15T11-24-22/recording.mp4",
+  "pid": 22947
+ },
+ {
+  "session_id": "a325bee8-a8bb-4755-acc6-fd3bfa1e9fcc",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段D 新手引导与支付验证）在《一点三国》（包名 com.gzhh.ydsg.aligames，启动时用包名）里按引导提示逐步操作：点击高亮区域、跳过剧情对话、选择默认角色或推荐选项，直到引导遮罩与引导手指完全消失。然后完成三项验收，缺一不可：① 引导遮罩与手指消失（连续等待两次 4 秒后确认不回弹）；② 主界面可见商店或充值入口（按钮、横幅、或资源旁的「+」均可）；③ 实际点开该商店/充值入口，确认支付或充值面板成功弹出（看到商品、金额或档位即可），截图后立即按返回退出，严禁点击任何付款或确认支付。三项全部满足 → result=PASS。若累计游玩达到 40 分钟仍未能满足上述三项，立即 result=TIMEOUT（超时未完成），不要继续尝试。report_task_status 汇报 stage=D、result、三项验收各自的证据，并写明「角色名：<角色名>」。",
+  "start_time": 1794713159.128653,
+  "status": "failed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_yidiansanguo_D_FAIL_2026-11-15T11-25-59/recording.mp4",
+  "pid": 25061
+ },
+ {
+  "session_id": "0d36c92b-b115-4b5b-9a93-ecb6bd2e5d57",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段B+C 启动与登录）：打开游戏《一剑断念》（包名 com.qy.yjdn1.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。若出现「链接已失效」「登录失败」「维护」等确定性失败提示，直接汇报不要重试。到达角色创建或游戏内场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、并用「角色名：<你看到的角色名，若无则写 未创建>」写明角色。",
+  "start_time": 1794714882.5555289,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_yijianduannian_BC_PASS_2026-11-15T11-54-42/recording.mp4",
+  "pid": 60370
+ },
+ {
+  "session_id": "05fc0482-98d3-4a01-9957-20f57ff7e3dd",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段D 新手引导与支付验证）在《一剑断念》（包名 com.qy.yjdn1.aligames，启动时用包名）里按引导提示逐步操作：点击高亮区域、跳过剧情对话、选择默认角色或推荐选项，直到引导遮罩与引导手指完全消失。然后完成三项验收，缺一不可：① 引导遮罩与手指消失（连续等待两次 4 秒后确认不回弹）；② 主界面可见商店或充值入口（按钮、横幅、或资源旁的「+」均可）；③ 实际点开该商店/充值入口，确认支付或充值面板成功弹出（看到商品、金额或档位即可），截图后立即按返回退出，严禁点击任何付款或确认支付。三项全部满足 → result=PASS。若累计游玩达到 40 分钟仍未能满足上述三项，立即 result=TIMEOUT（超时未完成），不要继续尝试。report_task_status 汇报 stage=D、result、三项验收各自的证据，并写明「角色名：<角色名>」。",
+  "start_time": 1794715262.714585,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_yijianduannian_D_PASS_2026-11-15T12-01-02/recording.mp4",
+  "pid": 67490
+ },
+ {
+  "session_id": "170ed824-85cd-4551-9a0d-fa83e641d8be",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段E 主界面巡检）在《一剑断念》（包名 com.qy.yjdn1.aligames）主界面：列出所有可点击功能按钮（背包、角色、活动、邮件、商城、充值、设置等），逐个点击，确认页面有变化且加载正常，再关闭或返回主界面，再点下一个。其中商店/充值入口必须再次打开并截图。最终给出逐按钮结果表（按钮名 / 是否有反应 / 页面是否正常）。report_task_status 汇报 stage=E、result、逐按钮表。",
+  "start_time": 1794715431.331348,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_yijianduannian_E_PASS_2026-11-15T12-03-51/recording.mp4",
+  "pid": 70460
+ },
+ {
+  "session_id": "8bdefddc-32da-40a4-a8f4-2295862328e4",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段B+C 启动与登录）：打开游戏《斗破苍穹：异火降世》（包名 com.rastar.dpcqyhjs.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。若出现「链接已失效」「登录失败」「维护」等确定性失败提示，直接汇报不要重试。到达角色创建或游戏内场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、并用「角色名：<你看到的角色名，若无则写 未创建>」写明角色。",
+  "start_time": 1794716182.5091789,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_doupo_BC_PASS_2026-11-15T12-16-22/recording.mp4",
+  "pid": 83651
+ },
+ {
+  "session_id": "d5596a3b-1463-4062-ab0e-91283e22ad60",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段D 新手引导与支付验证）在《斗破苍穹：异火降世》（包名 com.rastar.dpcqyhjs.aligames，启动时用包名）里按引导提示逐步操作：点击高亮区域、跳过剧情对话、选择默认角色或推荐选项，直到引导遮罩与引导手指完全消失。然后完成三项验收，缺一不可：① 引导遮罩与手指消失（连续等待两次 4 秒后确认不回弹）；② 主界面可见商店或充值入口（按钮、横幅、或资源旁的「+」均可）；③ 实际点开该商店/充值入口，确认支付或充值面板成功弹出（看到商品、金额或档位即可），截图后立即按返回退出，严禁点击任何付款或确认支付。三项全部满足 → result=PASS。若累计游玩达到 40 分钟仍未能满足上述三项，立即 result=TIMEOUT（超时未完成），不要继续尝试。report_task_status 汇报 stage=D、result、三项验收各自的证据，并写明「角色名：<角色名>」。",
+  "start_time": 1794716391.814678,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_doupo_D_PASS_2026-11-15T12-19-51/recording.mp4",
+  "pid": 87379
+ },
+ {
+  "session_id": "4600dc04-9c8e-466c-a5e9-3a3773fff071",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段E 主界面巡检）在《斗破苍穹：异火降世》（包名 com.rastar.dpcqyhjs.aligames）主界面：列出所有可点击功能按钮（背包、角色、活动、邮件、商城、充值、设置等），逐个点击，确认页面有变化且加载正常，再关闭或返回主界面，再点下一个。其中商店/充值入口必须再次打开并截图。最终给出逐按钮结果表（按钮名 / 是否有反应 / 页面是否正常）。report_task_status 汇报 stage=E、result、逐按钮表。",
+  "start_time": 1794716594.543722,
+  "status": "failed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_doupo_E_FAIL_2026-11-15T12-23-14/recording.mp4",
+  "pid": 90885
+ },
+ {
+  "session_id": "af880a5d-4bcb-4cbb-9a11-70f7fe5f350b",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段B+C 启动与登录）：打开游戏《冲吧勇者》（包名 com.yxa.sgwgcbyzyh.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。若出现「链接已失效」「登录失败」「维护」等确定性失败提示，直接汇报不要重试。到达角色创建或游戏内场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、并用「角色名：<你看到的角色名，若无则写 未创建>」写明角色。",
+  "start_time": 1794717717.421669,
+  "status": "failed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2340, \"profile\": \"flash\"}",
+  "video_filepath": null,
+  "pid": 10252
+ },
+ {
+  "session_id": "a01e0125-1205-428d-9e55-0a67b2e2f3cd",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段B+C 启动与登录）：打开游戏《大圣》（包名 com.qjyx.android.ds.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。若出现「链接已失效」「登录失败」「维护」等确定性失败提示，直接汇报不要重试。到达角色创建或游戏内场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、并用「角色名：<你看到的角色名，若无则写 未创建>」写明角色。",
+  "start_time": 1794720596.070615,
+  "status": "failed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: UIAutomator2; switched to the Artemis accessibility helper at 91.6s because helper recovered.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_dasheng_BC_FAIL_2026-11-15T13-29-55/recording.mp4",
+  "pid": 48488
+ },
+ {
+  "session_id": "9855949c-17ef-4581-a184-7e58be41868d",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段B+C 启动与登录）：打开游戏《一点三国》（包名 com.gzhh.ydsg.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。若出现「链接已失效」「登录失败」「维护」等确定性失败提示，直接汇报不要重试。到达角色创建或游戏内场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、并用「角色名：<你看到的角色名，若无则写 未创建>」写明角色。",
+  "start_time": 1794720713.912506,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_yidiansanguo_BC_PASS_2026-11-15T13-31-53/recording.mp4",
+  "pid": 50486
+ },
+ {
+  "session_id": "4ace4c15-e721-4c4b-b33f-2056f98a2bb7",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段D 新手引导与支付验证）在《一点三国》（包名 com.gzhh.ydsg.aligames，启动时用包名）里按引导提示逐步操作：点击高亮区域、跳过剧情对话、选择默认角色或推荐选项，直到引导遮罩与引导手指完全消失。然后完成三项验收，缺一不可：① 引导遮罩与手指消失（连续等待两次 4 秒后确认不回弹）；② 主界面可见商店或充值入口（按钮、横幅、或资源旁的「+」均可）；③ 实际点开该商店/充值入口，确认支付或充值面板成功弹出（看到商品、金额或档位即可），截图后立即按返回退出，严禁点击任何付款或确认支付。三项全部满足 → result=PASS。若累计游玩达到 40 分钟仍未能满足上述三项，立即 result=TIMEOUT（超时未完成），不要继续尝试。report_task_status 汇报 stage=D、result、三项验收各自的证据，并写明「角色名：<角色名>」。",
+  "start_time": 1794720811.3896,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_yidiansanguo_D_PASS_2026-11-15T13-33-31/recording.mp4",
+  "pid": 52159
+ },
+ {
+  "session_id": "313c9400-b100-482c-b75e-c08afc7c01af",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段E 主界面巡检）在《一点三国》（包名 com.gzhh.ydsg.aligames）主界面：列出所有可点击功能按钮（背包、角色、活动、邮件、商城、充值、设置等），逐个点击，确认页面有变化且加载正常，再关闭或返回主界面，再点下一个。其中商店/充值入口必须再次打开并截图。最终给出逐按钮结果表（按钮名 / 是否有反应 / 页面是否正常）。report_task_status 汇报 stage=E、result、逐按钮表。",
+  "start_time": 1794721629.809215,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_yidiansanguo_E_PASS_2026-11-15T13-47-09/recording.mp4",
+  "pid": 66649
+ },
+ {
+  "session_id": "548adbf1-1bcf-4a3b-8d46-614cfcc4f9ce",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段B+C 启动与登录）：打开游戏《斗破苍穹：异火降世》（包名 com.rastar.dpcqyhjs.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。若出现「链接已失效」「登录失败」「维护」等确定性失败提示，直接汇报不要重试。到达角色创建或游戏内场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、并用「角色名：<你看到的角色名，若无则写 未创建>」写明角色。",
+  "start_time": 1794722619.102634,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_doupo_BC_PASS_2026-11-15T14-03-38/recording.mp4",
+  "pid": 82705
+ },
+ {
+  "session_id": "7706ef66-57e9-4eae-a082-73f1e3c8c761",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段D 新手引导与支付验证）在《斗破苍穹：异火降世》（包名 com.rastar.dpcqyhjs.aligames，启动时用包名）里按引导提示逐步操作：点击高亮区域、跳过剧情对话、选择默认角色或推荐选项，直到引导遮罩与引导手指完全消失。然后完成三项验收，缺一不可：① 引导遮罩与手指消失（连续等待两次 4 秒后确认不回弹）；② 主界面可见商店或充值入口（按钮、横幅、或资源旁的「+」均可）；③ 实际点开该商店/充值入口，确认支付或充值面板成功弹出（看到商品、金额或档位即可），截图后立即按返回退出，严禁点击任何付款或确认支付。三项全部满足 → result=PASS。若累计游玩达到 40 分钟仍未能满足上述三项，立即 result=TIMEOUT（超时未完成），不要继续尝试。report_task_status 汇报 stage=D、result、三项验收各自的证据，并写明「角色名：<角色名>」。",
+  "start_time": 1794722867.727029,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_doupo_D_PASS_2026-11-15T14-07-47/recording.mp4",
+  "pid": 85139
+ },
+ {
+  "session_id": "994c452e-f156-49e6-9abd-9e090f500fff",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段E 主界面巡检）在《斗破苍穹：异火降世》（包名 com.rastar.dpcqyhjs.aligames）主界面：列出所有可点击功能按钮（背包、角色、活动、邮件、商城、充值、设置等），逐个点击，确认页面有变化且加载正常，再关闭或返回主界面，再点下一个。其中商店/充值入口必须再次打开并截图。最终给出逐按钮结果表（按钮名 / 是否有反应 / 页面是否正常）。report_task_status 汇报 stage=E、result、逐按钮表。",
+  "start_time": 1794723218.496396,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_doupo_E_PASS_2026-11-15T14-13-38/recording.mp4",
+  "pid": 90531
+ },
+ {
+  "session_id": "addfad80-7e39-448f-88f2-44a44e5ffcf7",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段B+C 启动与登录）：打开游戏《冲吧勇者》（包名 com.yxa.sgwgcbyzyh.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。若出现「链接已失效」「登录失败」「维护」等确定性失败提示，直接汇报不要重试。到达角色创建或游戏内场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、并用「角色名：<你看到的角色名，若无则写 未创建>」写明角色。",
+  "start_time": 1794723890.6795142,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_chongba_BC_PASS_2026-11-15T14-24-50/recording.mp4",
+  "pid": 760
+ },
+ {
+  "session_id": "b80f03a1-a8f4-47f4-ab54-0d2464b374e4",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段D 新手引导与支付验证）在《冲吧勇者》（包名 com.yxa.sgwgcbyzyh.aligames，启动时用包名）里按引导提示逐步操作：点击高亮区域、跳过剧情对话、选择默认角色或推荐选项，直到引导遮罩与引导手指完全消失。然后完成三项验收，缺一不可：① 引导遮罩与手指消失（连续等待两次 4 秒后确认不回弹）；② 主界面可见商店或充值入口（按钮、横幅、或资源旁的「+」均可）；③ 实际点开该商店/充值入口，确认支付或充值面板成功弹出（看到商品、金额或档位即可），截图后立即按返回退出，严禁点击任何付款或确认支付。三项全部满足 → result=PASS。若累计游玩达到 40 分钟仍未能满足上述三项，立即 result=TIMEOUT（超时未完成），不要继续尝试。report_task_status 汇报 stage=D、result、三项验收各自的证据，并写明「角色名：<角色名>」。",
+  "start_time": 1794724032.0693781,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_chongba_D_PASS_2026-11-15T14-27-11/recording.mp4",
+  "pid": 2156
+ },
+ {
+  "session_id": "09b7af9a-9a4b-4f90-b0b2-997efeb4d78f",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段E 主界面巡检）在《冲吧勇者》（包名 com.yxa.sgwgcbyzyh.aligames）主界面：列出所有可点击功能按钮（背包、角色、活动、邮件、商城、充值、设置等），逐个点击，确认页面有变化且加载正常，再关闭或返回主界面，再点下一个。其中商店/充值入口必须再次打开并截图。最终给出逐按钮结果表（按钮名 / 是否有反应 / 页面是否正常）。report_task_status 汇报 stage=E、result、逐按钮表。",
+  "start_time": 1794724563.9819179,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/qa1115_chongba_E_PASS_2026-11-15T14-36-03/recording.mp4",
+  "pid": 7376
+ },
+ {
+  "session_id": "6b1d0eee-a665-479c-9885-49da07206d27",
+  "initial_goal": "打开设置",
+  "start_time": 1794757558.362585,
+  "status": "failed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": "/Users/zw-mini/orca/artemis/traces/s0_c3_mismatch_FAIL_2026-11-15T23-45-58/recording.mp4",
+  "pid": 28782
+ },
+ {
+  "session_id": "4baad0b6-21b9-48dd-8418-0a3d9ac2a0bc",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段B+C 启动与登录）：打开游戏《一剑断念》（包名 com.qy.yjdn1.aligames）。同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 BLOCKED。到达角色创建或游戏内场景后，report_task_status 汇报 stage=B+C、result=PASS/FAIL/BLOCKED、并用「角色名：<你看到的角色名，若无则写 未创建>」写明角色。",
+  "start_time": 1794758037.8829749,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": null,
+  "pid": 37614
+ },
+ {
+  "session_id": "b6a27fa5-0492-426a-8419-e6ebc16e8012",
+  "initial_goal": "你是 Android 手游质检员，只汇报亲眼在屏幕上确认的事实。规则：1. 遇到手机号/验证码/实名/人脸验证，立即停止并汇报 BLOCKED，不要绕过。2. 严禁点击任何最终付款/确认支付，严禁输入支付密码。充值/支付面板只要成功拉起并看到商品或金额，立即截图，然后按返回退出，不要继续。3. 出现明确失败提示（链接已失效、版本过旧、网络错误、维护、闪退）即视为确定结果，立即汇报，严禁反复重启应用、清理缓存或重复试探。4. 游戏画面没有 UI 树时用视觉定位，每次点击后必须看新截图确认画面变化。5. 若连续 8 次操作画面无任何变化，判定为卡死，汇报 result=FAIL。6. 启动应用时**必须**使用包名（package name），严禁使用中文应用名，否则应用名解析会失败并卡住。任务（阶段D 新手引导与支付验证）在《一剑断念》（包名 com.qy.yjdn1.aligames，启动时用包名）里按引导提示逐步操作：点击高亮区域、跳过剧情对话、选择默认或推荐选项，直到引导遮罩与引导手指完全消失。然后完成三项验收，缺一不可：① 引导遮罩与手指消失（连续等待两次 4 秒确认不回弹）；② 主界面可见商店或充值入口；③ 实际点开该入口，确认支付或充值面板成功弹出（看到商品、金额或档位即可），截图后立即按返回退出，严禁点击任何付款或确认支付。report_task_status 必须逐项回答 check_guide_gone / check_entry_visible / check_panel_opened（YES/NO），并在 evidence 里为每项写明截图名或画面原文，三项全部为 YES 才能 status=completed。",
+  "start_time": 1794758193.2192159,
+  "status": "completed",
+  "device_info": "{\"host_platform\": \"MACOS\", \"mobile_platform\": \"android\", \"device_id\": \"89FX09M9U\", \"device_width\": 1080, \"device_height\": 2160, \"profile\": \"flash\", \"hierarchy_backend\": \"helper\", \"hierarchy_backend_note\": \"UI hierarchy source: the Artemis accessibility helper v1.2.0.\"}",
+  "video_filepath": null,
+  "pid": 39585
+ }
+]
