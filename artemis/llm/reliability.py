@@ -30,6 +30,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from enum import StrEnum
 import random
+import re
 import threading
 import time
 from typing import Any
@@ -65,13 +66,28 @@ class Failure:
     should_fallback: bool
 
 
+_STATUS_IN_MESSAGE_RE = re.compile(r"error code:\s*(\d{3})", re.IGNORECASE)
+
+
 def extract_status_code(error: BaseException) -> int | None:
-    """Best-effort extraction of an HTTP-ish status code from an exception."""
-    code = getattr(error, "code", None) or getattr(error, "status_code", None)
-    try:
-        return int(code) if code is not None else None
-    except (TypeError, ValueError):
-        return None
+    """Best-effort extraction of an HTTP-ish status code from an exception.
+
+    ``status_code`` is read before ``code``: OpenAI-compatible SDKs set
+    ``BadRequestError.code`` to a string such as ``'invalid_request_error'``,
+    which must not shadow the real ``status_code=400``. Only ints and
+    all-digit strings count; the ``Error code: NNN`` text the SDKs put in
+    ``str(error)`` is the last resort.
+    """
+    for attr in ("status_code", "code", "status"):
+        value = getattr(error, attr, None)
+        if isinstance(value, bool):
+            continue
+        if isinstance(value, int):
+            return value
+        if isinstance(value, str) and value.isdigit():
+            return int(value)
+    match = _STATUS_IN_MESSAGE_RE.search(str(error))
+    return int(match.group(1)) if match else None
 
 
 _RATE_LIMIT_MARKERS = ("rate limit", "quota", "resource_exhausted")
