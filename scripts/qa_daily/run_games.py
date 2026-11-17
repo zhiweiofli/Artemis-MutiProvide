@@ -142,6 +142,9 @@ def main() -> int:
     for r in results:
         lines.append(f"| {r['name']} | {r['schedule']} | {r['verdict']} | {r['total_wall']} |"
                      f" {r['d_wall']} | {r['character']} | {r['note']} |")
+    if len(games) < 5:
+        lines.append("")
+        lines.append(f"> 当日可下载首发仅 {len(games)} 款（不足 5 款），已跑完全部可跑项。")
     (out / "SUMMARY.md").write_text("\n".join(lines) + "\n")
 
     ledger = ROOT / "docs" / "qa_daily" / "ledger.json"
@@ -154,6 +157,7 @@ def main() -> int:
         "rounds": 1,
         "games": len(results),
         "verdict": f"{verdicts} PASS / {len(results) - verdicts} 非 PASS",
+        "launches_available": len(games),
         "notes": f"每日队列 {stamp}",
     })
     ledger.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n")

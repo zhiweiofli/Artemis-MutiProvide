@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-"""读取九游「即将上线」今天的首发清单（只读，不点下载/支付）。
+"""读取九游「即将上线 → 新游首发」的当日首发清单（只读，不点下载/支付）。
+
+路径：首页「即将上线 · 更多」→ 列表页「新游首发」tab → 按日期分组的竖向列表。
+早前版本读首页横向卡片，会把「明天」的首发算进「今天」，已废弃。
 
 用法：
-    python3 scripts/qa_daily/today_launches.py [--json] [--require-download]
+    python3 scripts/qa_daily/today_launches.py [--json] [--date 今天] [--require-download]
 
-输出每个条目的 name / slot(如 "10:00 首发") / action(下载|预约|打开)。
---require-download 只保留当前已可下载的条目（19:00 后应当全部为「下载」）。
+输出字段：name / date / slot("今天 10:00·首发") / kind(首发|更新|…) / action(下载|预约|…) / tap。
 """
 
 from __future__ import annotations
@@ -24,7 +26,10 @@ PKG = "cn.ninegame.gamemanager"
 TMP = Path("/tmp/jiuyou_daily")
 
 ACTIONS = {"下载", "预约", "打开", "继续", "云玩", "秒进游戏"}
-SLOT_RE = re.compile(r"(\d\d:\d\d)\s*(首发|更新|新活动|删档测试|公测|开放下载)")
+DATE_HEADERS = {"今天", "明天", "后天", "大后天", "昨天", "前天"}
+DATE_RE = re.compile(r"^\d{1,2}-\d{1,2}$")
+SLOT_RE = re.compile(r"([^\s]+)\s+(\d\d:\d\d)[·・]\s*(首发|更新|新活动|删档测试|公测|开放下载|测试)")
+RATING_RE = re.compile(r"^[\d.]+$")
 
 
 def adb(*args: str, timeout: int = 30) -> str:
@@ -37,7 +42,6 @@ def adb(*args: str, timeout: int = 30) -> str:
 
 
 def nodes() -> list[tuple[int, int, int, int, str]]:
-    """(x1, y1, x2, y2, text) for every labelled node on screen."""
     TMP.mkdir(parents=True, exist_ok=True)
     adb("shell", "uiautomator", "dump", "/sdcard/daily.xml")
     adb("pull", "/sdcard/daily.xml", str(TMP / "ui.xml"))
@@ -52,105 +56,148 @@ def nodes() -> list[tuple[int, int, int, int, str]]:
             continue
         x1, y1, x2, y2 = (int(v) for v in m.groups())
         out.append((x1, y1, x2, y2, text))
-    return out
+    return sorted(out, key=lambda n: (n[1], n[0]))
 
 
-def band_rows(ns, tol: int = 24) -> dict[int, list[tuple[int, int, int, int, str]]]:
-    rows: dict[int, list] = {}
-    for n in ns:
-        key = round(n[1] / tol) * tol
-        rows.setdefault(key, []).append(n)
-    return rows
+def tap(x: float, y: float) -> None:
+    adb("shell", "input", "tap", str(int(x)), str(int(y)))
 
 
-def parse_cards(ns) -> list[dict]:
-    """Cards are three stacked rows: name, genre, slot+action."""
-    rows = band_rows(ns)
-    action_rows = [y for y, items in rows.items() if sum(1 for i in items if i[4] in ACTIONS) >= 2]
-    cards: list[dict] = []
-    for ay in sorted(action_rows):
-        slot_y = min((y for y in rows if 0 < ay - y <= 90), default=None)
-        above = sorted((y for y in rows if slot_y is not None and 0 < slot_y - y <= 200), reverse=True)
-        # Cards stack as name / genre / slot / action: the name is the second row up.
-        name_y = above[1] if len(above) > 1 else (above[0] if above else None)
-        if slot_y is None or name_y is None:
-            continue
-        for nx1, ny1, nx2, ny2, name in rows[name_y]:
-            if len(name) < 2 or name in ACTIONS or SLOT_RE.search(name):
-                continue
-            def pick(row_y):
-                hits = [t for x1, _, x2, _, t in rows[row_y] if x1 >= nx1 - 15 and x2 <= nx2 + 15]
-                return " ".join(hits).strip()
-            cards.append({
-                "name": name,
-                "slot": pick(slot_y),
-                "action": pick(ay),
-                # Card tap point: the image above the name (opens the detail page).
-                "tap": [(nx1 + nx2) // 2, max(60, ny1 - 140)],
-            })
-    seen, uniq = set(), []
-    for c in cards:
-        if c["name"] in seen:
-            continue
-        seen.add(c["name"])
-        uniq.append(c)
-    return uniq
+def dismiss_splash() -> None:
+    for _ in range(3):
+        hits = [n for n in nodes() if n[4].startswith("跳过")]
+        if not hits:
+            return
+        tap((hits[0][0] + hits[0][2]) / 2, (hits[0][1] + hits[0][3]) / 2)
+        time.sleep(3)
 
 
-def open_today_tab() -> None:
+def wait_for(labels: set[str], timeout: float = 25.0):
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        ns = nodes()
+        hit = next((n for n in ns if n[4] in labels), None)
+        if hit is not None:
+            return hit, ns
+        if any(n[4].startswith("跳过") for n in ns):
+            dismiss_splash()
+        time.sleep(2)
+    return None, []
+
+
+def open_launch_list() -> None:
     adb("shell", "am", "force-stop", PKG)
     time.sleep(1)
     adb("shell", "monkey", "-p", PKG, "-c", "android.intent.category.LAUNCHER", "1")
-    time.sleep(7)
-    for _ in range(3):
-        hits = [n for n in nodes() if n[4] in ("跳过", "跳过(1s)") or n[4].startswith("跳过")]
-        if not hits:
-            break
-        x1, y1, x2, y2, _ = hits[0]
-        adb("shell", "input", "tap", str((x1 + x2) // 2), str((y1 + y2) // 2))
-        time.sleep(3)
-    today = [n for n in nodes() if n[4] == "今天"]
-    if not today:
-        raise SystemExit("找不到「今天」日期标签，页面结构可能变了")
-    x1, y1, x2, y2, _ = today[0]
-    adb("shell", "input", "tap", str((x1 + x2) // 2), str((y1 + y2) // 2))
-    time.sleep(3)
+    time.sleep(6)
+    dismiss_splash()
+
+    tab, _ = wait_for({"新游首发"}, timeout=2)
+    if tab is None:
+        section, ns = wait_for({"即将上线"})
+        if section is None:
+            raise SystemExit("等不到「即将上线」入口：页面改版或被开屏广告卡住")
+        more = min(
+            (n for n in ns if n[4] == "更多" and abs(n[1] - section[1]) < 120),
+            key=lambda n: abs(n[1] - section[1]),
+            default=None,
+        )
+        if more is None:
+            raise SystemExit("首页找不到「即将上线 · 更多」入口")
+        tap((more[0] + more[2]) / 2, (more[1] + more[3]) / 2)
+        time.sleep(4)
+        tab, _ = wait_for({"新游首发"}, timeout=10)
+        if tab is None:
+            raise SystemExit("列表页找不到「新游首发」tab")
+    tap((tab[0] + tab[2]) / 2, (tab[1] + tab[3]) / 2)
+    time.sleep(4)
 
 
-def collect(max_swipes: int = 8) -> list[dict]:
+def parse_snapshot(ns) -> tuple[list[dict], str | None]:
+    """一屏一解析：日期分组 → 卡片（名称在上、按钮在右、场次行带「·首发」）。"""
+    cards: list[dict] = []
+    current: str | None = None
+    for x1, y1, x2, y2, text in ns:
+        if text in DATE_HEADERS or DATE_RE.match(text):
+            current = text
+            continue
+        m = SLOT_RE.search(text)
+        if not m:
+            continue
+        cx = (x1 + x2) / 2
+        name_node = max(
+            (
+                n for n in ns
+                if n[3] <= y1 and 0 < y1 - n[3] < 170
+                and abs((n[0] + n[2]) / 2 - cx) < 420
+                and n[4] not in ACTIONS and not RATING_RE.match(n[4])
+                and "・" not in n[4] and len(n[4]) > 1
+            ),
+            key=lambda n: n[3],
+            default=None,
+        )
+        if name_node is None:
+            continue
+        action = min(
+            (
+                n for n in ns
+                if n[4] in ACTIONS and abs((n[1] + n[3]) / 2 - (y1 + y2) / 2) < 150
+                and n[0] >= x2 - 40
+            ),
+            key=lambda n: abs((n[1] + n[3]) / 2 - (y1 + y2) / 2),
+            default=None,
+        )
+        slot_date = m.group(1)
+        cards.append({
+            "name": name_node[4],
+            "date": slot_date if DATE_RE.match(slot_date) else (current or slot_date),
+            "slot": f"{slot_date} {m.group(2)}·{m.group(3)}",
+            "kind": m.group(3),
+            "starts_at": m.group(2),
+            "action": action[4] if action else "",
+            "tap": [(name_node[0] + name_node[2]) // 2, max(60, name_node[1] - 120)],
+        })
+    return cards, current
+
+
+def collect(max_swipes: int = 10) -> list[dict]:
     found: dict[str, dict] = {}
-    last = None
+    idle = 0
     for _ in range(max_swipes):
-        cards = parse_cards(nodes())
-        for c in cards:
-            found.setdefault(c["name"], c)
-        sig = tuple(sorted(c["name"] for c in cards))
-        if sig == last:
+        cards, _ = parse_snapshot(nodes())
+        fresh = [c for c in cards if c["name"] not in found]
+        for c in fresh:
+            found[c["name"]] = c
+        idle = idle + 1 if not fresh else 0
+        if idle >= 2:
             break
-        last = sig
-        adb("shell", "input", "swipe", "950", "1553", "150", "1553", "400")
-        time.sleep(1.3)
+        adb("shell", "input", "swipe", "540", "1600", "540", "700", "350")
+        time.sleep(1.4)
     return list(found.values())
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--json", action="store_true")
+    ap.add_argument("--date", default="今天")
     ap.add_argument("--require-download", action="store_true")
-    ap.add_argument("--max-swipes", type=int, default=8)
+    ap.add_argument("--max-swipes", type=int, default=10)
     args = ap.parse_args()
 
-    open_today_tab()
+    open_launch_list()
     cards = collect(args.max_swipes)
-    launches = [c for c in cards if "首发" in c.get("slot", "")]
+    launches = [c for c in cards if c["kind"] == "首发" and c["date"] in (args.date, "今天")]
+    if args.date == "今天":
+        launches = [c for c in launches if c["date"] == "今天"]
     if args.require_download:
-        launches = [c for c in launches if "下载" in c.get("action", "")]
+        launches = [c for c in launches if "下载" in c["action"]]
+    launches.sort(key=lambda c: (c["date"], c["starts_at"]))
     if args.json:
         print(json.dumps(launches, ensure_ascii=False, indent=1))
     else:
         for c in launches:
             print(f"{c['name']}\t{c['slot']}\t{c['action']}")
-        print(f"共 {len(launches)} 款首发", file=sys.stderr)
+        print(f"共 {len(launches)} 款首发（{args.date}）", file=sys.stderr)
     return 0
 
 

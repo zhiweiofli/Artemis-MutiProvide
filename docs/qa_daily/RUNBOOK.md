@@ -28,11 +28,16 @@ python3 scripts/qa_daily/preflight.py --json; echo "exit=$?"
 ### 2. 取当日首发清单
 
 ```bash
-python3 scripts/qa_daily/today_launches.py --json > /tmp/launches.json
+python3 scripts/qa_daily/today_launches.py --json --require-download > /tmp/launches.json
 ```
 
-- 只保留 `slot` 里带具体时间（`HH:MM 首发`）的条目，`12月 首发` 这类不是当日场次，剔除。
-- 需要 ≥5 款且 `action` 为「下载」。不足 5 款 → 停止并告知用户（不要拿「更新/新活动/删档测试」凑数）。
+> 2026-11-17 修：旧版本读首页横向卡片会把「明天」的首发算进「今天」。现在固定走
+> 「首页 · 即将上线 · 更多 → 新游首发 tab → 竖向日期分组列表」，每屏只 dump 一次。
+
+- 只保留 `date` 为「今天」且 `kind` 为「首发」的条目；`action` 必须是「下载」才算可跑。
+- **数量规则（2026-11-17 定）**：目标 ≥5 款；若当日可下载首发不足 5 款，**跑完全部可下载的（≥1 款即跑）**，
+  并在报告与台账里标注「当日首发仅 N 款」。只有 0 款时才停止并告知用户。
+- 绝不用「更新 / 新活动 / 删档测试」凑数——那类不属于首发。
 
 ### 3. 下载安装（逐款）
 
