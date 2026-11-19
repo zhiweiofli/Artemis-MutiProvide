@@ -24,6 +24,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts" / "qa_daily"))
 
+import runlock  # noqa: E402  (同目录的单实例锁)
+
 _spec = importlib.util.spec_from_file_location("qa_queue", ROOT / "scripts" / "qa_1114_queue.py")
 q = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(q)
@@ -80,6 +82,11 @@ def main() -> int:
     ap.add_argument("--budget-min", type=float, default=150.0)
     ap.add_argument("--out", default=None)
     args = ap.parse_args()
+
+    ok, note = runlock.try_acquire("run_games")
+    if not ok:
+        print(json.dumps({"ok": False, "reason": note}, ensure_ascii=False))
+        return 3
 
     games = json.loads(Path(args.games).read_text())
     stamp = dt.datetime.now().strftime("%Y%m%d_%H%M")

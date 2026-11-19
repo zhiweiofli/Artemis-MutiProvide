@@ -24,6 +24,9 @@ python3 scripts/qa_daily/preflight.py --json; echo "exit=$?"
 - `exit=2` → 立刻停止，把 `reasons` 发给用户，当天不跑、不写台账。
 
 判定规则：设备在线 / 网络 0% 丢包 / `/data` 剩余 ≥10 GB / 连续执行天数 <4。
+另外 preflight 会返回 `busy`：为 true 说明**另一轮正在跑**（单实例锁 `/tmp/artemis_qa_daily.lock` 或
+`run_games.py` / `install_game.py` 进程还在）。此时必须停手——不要安装、不要跑测、不要 force-stop 任何游戏，
+只输出一句「另一轮在跑，本轮跳过」。2026-11-18 就是补跑守卫和 19:00 那轮撞了，误杀了正在跑的 E 阶段。
 
 ### 2. 取当日首发清单
 

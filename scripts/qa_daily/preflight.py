@@ -18,6 +18,9 @@ import subprocess
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import runlock  # noqa: E402  (同目录的单实例锁)
+
 DEVICE = "89FX09M9U"
 MIN_FREE_GB = 10.0
 MAX_CONSECUTIVE_DAYS = 4
@@ -84,6 +87,7 @@ def main() -> int:
     net, net_note = network_ok() if device else (False, "设备未连接")
     free = free_gb() if device else None
     streak = consecutive_days(today)
+    busy = runlock.busy_reason()
 
     reasons = []
     if not device:
@@ -94,6 +98,8 @@ def main() -> int:
         reasons.append(f"手机可用空间 {free} GB < {MIN_FREE_GB} GB")
     if free is None and device:
         reasons.append("读取不到 /data 可用空间")
+    if busy:
+        reasons.append(busy)
     if streak + 1 >= MAX_CONSECUTIVE_DAYS:
         reasons.append(f"连续执行第 {streak + 1} 天，已达上限 {MAX_CONSECUTIVE_DAYS} 次，今天不跑")
 
@@ -103,6 +109,7 @@ def main() -> int:
         "network_ok": net,
         "network_note": net_note,
         "free_gb": free,
+        "busy": bool(busy),
         "consecutive_days_before_today": streak,
         "would_be_run_number": streak + 1,
         "allowed": not reasons,

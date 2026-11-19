@@ -19,6 +19,7 @@ import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import runlock  # noqa: E402  (同目录的单实例锁)
 import today_launches as tl  # noqa: E402  (同目录工具，复用 UI dump/解析)
 
 DOWNLOAD_LABELS = ("下载", "立即下载", "安装", "继续下载", "更新")
@@ -155,6 +156,11 @@ def main() -> int:
     ap.add_argument("--name", required=True)
     ap.add_argument("--timeout-min", type=float, default=15.0)
     args = ap.parse_args()
+
+    ok, note = runlock.try_acquire("install_game")
+    if not ok:
+        print(json.dumps({"ok": False, "reason": note}, ensure_ascii=False))
+        return 3
 
     before = installed_packages()
     if not before:
