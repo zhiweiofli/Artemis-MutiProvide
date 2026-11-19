@@ -192,7 +192,8 @@ def verdict_of(phase: dict, timeout_s: int) -> str:
     gate = (phase.get("gate") or "").upper()
     if gate in ("PASS", "FAIL", "INCONCLUSIVE", "TIMEOUT"):
         return gate
-    low = rep.lower()
+    # 中英同义 token 归一：模型常写「结果：PASS」「结论:PASS」，语义上就是 result=
+    low = rep.lower().replace("结果", "result").replace("结论", "result")
     m = re.search(r"result\s*[=:：]\s*[\"'\s]*(pass|fail|blocked|timeout)", low)
     if m:
         return {"pass": "PASS", "fail": "FAIL", "blocked": "BLOCKED", "timeout": "TIMEOUT"}[m.group(1)]
@@ -222,7 +223,7 @@ def extract_character(report: str) -> str:
     ):
         m = re.search(pat, report or "")
         if m:
-            return m.group(1).strip()
+            return m.group(1).strip().strip("'\"")
     return ""
 
 

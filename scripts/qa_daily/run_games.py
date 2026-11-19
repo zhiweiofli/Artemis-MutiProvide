@@ -45,7 +45,7 @@ def goal_bc(name: str, package: str) -> str:
         + f"任务（阶段B+C 启动与登录）：打开游戏《{name}》（包名 {package}）。"
         + "同意必要的用户协议与权限弹窗，等待资源更新与SDK初始化完成（进度条走完）。"
         + "登录优先选「九游账号」或「一键登录」；若只能手机号验证码登录则汇报 result=BLOCKED。"
-        + "到达角色创建或游戏内场景后 report_task_status 汇报 stage=B+C、result，"
+        + "到达角色创建或游戏内场景后 report_task_status，explanation 第一行必须原样写出 result=PASS 或 result=FAIL 或 result=BLOCKED（三选一，照字面写英文 result=），再用「角色名：…」写明角色。"
         + "并用「角色名：<角色名，若无则写 未创建>」写明角色。"
     )
 
@@ -58,7 +58,7 @@ def goal_d(name: str, package: str) -> str:
         + "然后完成三项验收：① 引导遮罩与手指消失（连续等待两次 4 秒确认不回弹）；"
         + "② 主界面可见商店或充值入口；③ 实际点开该入口，确认支付或充值面板弹出（看到商品、金额或档位即可），"
         + "截图后立即返回，严禁点击任何付款或确认支付。"
-        + "report_task_status 必须逐项回答 check_guide_gone / check_entry_visible / check_panel_opened（YES/NO），"
+        + "report_task_status 的 explanation 第一行必须原样写出 result=PASS 或 result=FAIL 或 result=BLOCKED（三选一，照字面写英文 result=），并逐项回答 check_guide_gone / check_entry_visible / check_panel_opened（YES/NO），"
         + "并在 evidence 里为每项写明截图名或画面原文；三项全 YES 才能 status=completed。"
     )
 
@@ -70,7 +70,7 @@ def goal_e(name: str, package: str) -> str:
         + "（背包、角色、活动、邮件、商城、充值、设置等），逐个点击，确认页面有变化且加载正常，"
         + "再关闭或返回主界面，再点下一个。商店/充值入口必须再次打开并截图。"
         + "最终给出逐按钮结果表（按钮名 / 是否有反应 / 页面是否正常）。"
-        + "report_task_status 汇报 stage=E、result、逐按钮表。"
+        + "report_task_status 的 explanation 第一行必须原样写出 result=PASS 或 result=FAIL 或 result=BLOCKED（三选一，照字面写英文 result=），再给逐按钮表。"
     )
 
 
