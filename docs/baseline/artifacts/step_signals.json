@@ -1,0 +1,35 @@
+{
+ "steps": 2196,
+ "index_clicks": 239,
+ "stale_index_failures": 126,
+ "waits": [
+  {
+   "ms": 240000,
+   "n": 2
+  },
+  {
+   "ms": 180000,
+   "n": 1
+  },
+  {
+   "ms": 150000,
+   "n": 1
+  },
+  {
+   "ms": 120000,
+   "n": 1
+  },
+  {
+   "ms": 90000,
+   "n": 1
+  }
+ ],
+ "compress_history": [
+  {
+   "max_s": 1677.8336730003357,
+   "n": 292,
+   "over_300s": 10
+  }
+ ],
+ "video_recordings": 67
+}

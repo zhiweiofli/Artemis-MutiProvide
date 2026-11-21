@@ -170,9 +170,24 @@ class AndroidAdbDriver(BaseDeviceDriver):
                 logger.warning(f"Device screenshot capture failed on {self._device_id}: {e}")
 
         if not screenshot_base64 or not isinstance(screenshot_base64, str):
-            # Fallback for headless testing environments
-            screenshot_base64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
-            screenshot_bytes = base64.b64decode(screenshot_base64)
+            # One retake, then fail closed. Substituting a stand-in frame used to
+            # hand models a 1x1 pixel they cannot read (Qwen 400) and let the run
+            # continue on a screen that was never observed.
+            logger.warning(f"No screenshot on {self._device_id}; retaking once before failing.")
+            try:
+                pil_img = await asyncio.to_thread(self.device.screenshot)
+                if hasattr(pil_img, "save"):
+                    buf = BytesIO()
+                    pil_img.save(buf, format="PNG")
+                    screenshot_bytes = buf.getvalue()
+                    self._width, self._height = pil_img.size
+                    screenshot_base64 = base64.b64encode(screenshot_bytes).decode("utf-8")
+            except Exception as e:
+                logger.warning(f"Screenshot retake failed on {self._device_id}: {e}")
+        if not screenshot_base64 or not isinstance(screenshot_base64, str):
+            raise RuntimeError(
+                f"Screen capture failed on '{self._device_id}': no screenshot after a retake"
+            )
 
         # 2. Capture UI Hierarchy via UIAutomator
         if self._ui_adb_client and not ui_elements:
@@ -205,11 +220,7 @@ class AndroidAdbDriver(BaseDeviceDriver):
             screen_width=w,
             screen_height=h,
         )
-        clean_b64 = (
-            screenshot_base64
-            if isinstance(screenshot_base64, str) and screenshot_base64
-            else "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
-        )
+        clean_b64 = screenshot_base64
         clean_bytes = (
             screenshot_bytes
             if isinstance(screenshot_bytes, bytes) and screenshot_bytes

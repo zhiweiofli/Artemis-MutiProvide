@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "description": "Workbench 项目环境与推荐工具注册表：在初始化/接手阶段自动匹配项目类型、探测推荐工具与项目依赖环境、引导安装与初始化，并将工具使用策略编译进 AGENTS.md。",
+  "project_profiles": {
+    "general": {
+      "label": "普通项目（默认基线）",
+      "always_match": true,
+      "markers": ["README.md", "AGENTS.md", "docs"]
+    },
+    "code-engineering": {
+      "label": "代码工程类项目",
+      "always_match": false,
+      "markers": [
+        "build.gradle",
+        "build.gradle.kts",
+        "settings.gradle",
+        "pom.xml",
+        "package.json",
+        "pyproject.toml",
+        "Cargo.toml",
+        "go.mod",
+        "CMakeLists.txt",
+        "Makefile",
+        "src"
+      ]
+    },
+    "research": {
+      "label": "研究性 / 逆向分析 / 探索对标项目",
+      "always_match": false,
+      "markers": [
+        "analysis",
+        "research",
+        "experiments",
+        "notebooks",
+        "benchmark",
+        "evals",
+        "HANDOFF.md"
+      ]
+    }
+  },
+  "recommended_tools": [
+    {
+      "id": "semble",
+      "name": "Semble 语义与混合代码检索",
+      "kind": "cli-mcp",
+      "profiles": ["general", "code-engineering", "research"],
+      "required": true,
+      "detect": {
+        "binaries": ["semble"],
+        "global_skills": [
+          "~/.gemini/config/skills/semble-search/SKILL.md",
+          "~/.agents/skills/semble-search/SKILL.md",
+          "~/.claude/skills/semble-search/SKILL.md"
+        ]
+      },
+      "install_guide": "若环境未安装 semble，引导用户安装 CLI 与 MCP（如执行 `uv tool install \"semble[mcp]\" && semble install` 配置宿主 Agent，或使用 `uvx --from \"semble[mcp]\" semble`）。",
+      "init_action": "在项目根目录执行 `semble search \"<项目核心词>\" . --content all --top-k 5` 验证并预热本地检索索引。",
+      "unverified": "静态仅检查可执行文件与全局 Skill 文件；索引可用性与宿主 MCP 连接需实际调用验证。",
+      "policy": "检索优先级策略：`semble` 优于 `grep / find / glob` 等暴力扫描工具。探索代码库、查文档（`--content docs`）、查配置（`--content config`）或寻找相似实现（`find-related`）时，优先调用 `mcp__semble__search` 或 `semble` CLI；仅在精确字面量穷举或确认已知路径时回退到 `grep / find / read`。"
+    },
+    {
+      "id": "codegraph",
+      "name": "CodeGraph 项目代码图谱与调用链分析",
+      "kind": "cli-mcp-hook",
+      "profiles": ["code-engineering"],
+      "required": true,
+      "detect": {
+        "binaries": ["codegraph"],
+        "project_paths": [".codegraph", ".mcp.json"],
+        "git_hook": {
+          "path": ".git/hooks/post-commit",
+          "contains": "codegraph sync"
+        }
+      },
+      "install_guide": "若环境未安装 codegraph，引导用户安装 CLI（如通过 Homebrew 安装 `codegraph` 或全局安装 `@colbymchenry/codegraph`）并运行 `codegraph install` 配置 Agent MCP。",
+      "init_action": "1) 执行 `codegraph init .` 构建项目初始代码图谱，并确保 `.codegraph/` 已加入 `.gitignore`；2) 配置项目级 `.mcp.json`（写入 `mcpServers.codegraph: {\"type\": \"stdio\", \"command\": \"codegraph\", \"args\": [\"serve\", \"--mcp\"]}`）；3) 在 `.git/hooks/post-commit` 中配置自动同步钩子（`command -v codegraph >/dev/null 2>&1 && codegraph sync --quiet . >/dev/null 2>&1 &` 并 `chmod +x`），使每次 `git commit` 自动同步项目图谱。",
+      "unverified": "静态检查可执行文件、非空 `.codegraph/`、`.mcp.json` 的 `mcpServers.codegraph` 配置项及可执行 `post-commit` 钩子；宿主 MCP 自动发现与真实 `git commit` 触发不同步执行。",
+      "policy": "代码图谱与同步策略：通过 `codegraph` 构建项目代码图谱并在 `git commit` 时自动同步 repo；涉及跨文件调用链追踪、符号上下文读取、上下游调用者（`callers / callees`）及修改影响面（`impact / affected`）分析时，优先使用 `codegraph`（MCP 工具或 CLI），先看清依赖图谱再修改代码。"
+    },
+    {
+      "id": "gh",
+      "name": "GitHub CLI (gh) 开源对标与方案检索",
+      "kind": "cli",
+      "profiles": ["research", "code-engineering"],
+      "required": true,
+      "detect": {
+        "binaries": ["gh"]
+      },
+      "install_guide": "若环境未安装 `gh` 或未认证，引导用户安装 GitHub CLI 并执行 `gh auth login` 完成登录认证。",
+      "init_action": "执行 `gh auth status` 确认 GitHub 检索与对标能力就绪。",
+      "unverified": "静态仅检查可执行 `gh` 二进制；GitHub 登录态（`gh auth status`）与外网连通性未静态验证。",
+      "policy": "开源对标与方案取舍策略：遇到不熟悉的功能或非平凡模块别从零闭门造车，动工前先通过 `gh`（`gh search repos / code / issues`）去 GitHub 搜索成熟开源项目对比思路；搜索后必须先向用户给出方案对比与取舍结论（Trade-offs & Selection），绝不直接照搬外部代码实现。"
+    },
+    {
+      "id": "archify",
+      "name": "Archify 可视化架构图与一页式解说（项目标配原子 Skill）",
+      "kind": "atomic-skill",
+      "profiles": ["general", "code-engineering", "research"],
+      "required": true,
+      "detect": {
+        "project_skills": [
+          ".agents/skills/archify/SKILL.md",
+          ".claude/skills/archify/SKILL.md"
+        ],
+        "global_skills": [
+          "~/.agents/skills/archify/SKILL.md",
+          "~/.claude/skills/archify/SKILL.md",
+          "~/.gemini/config/skills/archify/SKILL.md"
+        ]
+      },
+      "install_guide": "作为项目标配原子 Skill，若环境与项目均未安装 `archify`，引导用户从 `tt-a1i/archify` 安装到全局或项目 Skill 目录；若本机全局已安装，可适配或引用到项目 `.agents/skills/archify` 与 `.claude/skills/archify`。",
+      "init_action": "核实 `archify` Skill 在当前宿主或项目 `.agents/skills/archify` 可读取，并登记到 `AGENTS.md` 原子能力路由表与能力期望表。",
+      "unverified": "静态仅检查项目或全局 `SKILL.md` 文件可读；宿主原生自动发现与渲染依赖需在调用时验证。",
+      "policy": "可视化解说与辅助决策策略（项目标配原子 Skill）：在为用户进行复杂架构分析、疑难问题解惑、调用链/状态机梳理、方案取舍对比或阶段总结时，主动建议或使用 `archify` 生成可交互 HTML 架构图或一页式可视化解说（One-page Explainer），辅助用户直观理解与高效决策。"
+    }
+  ],
+  "environment_detectors": [
+    {
+      "id": "jvm-gradle",
+      "label": "JDK 与 Gradle 构建环境",
+      "markers": ["build.gradle", "build.gradle.kts", "settings.gradle", "gradlew"],
+      "binaries": ["java"],
+      "project_files": ["gradlew"],
+      "remediation": "确保本机已安装项目要求版本的 JDK（通过 `java -version` 与 `JAVA_HOME` 核实），且 `./gradlew` 具备可执行权限。"
+    },
+    {
+      "id": "android-sdk",
+      "label": "Android SDK 环境",
+      "markers": ["local.properties", "phenix-core/src/main/AndroidManifest.xml", "app/src/main/AndroidManifest.xml"],
+      "env_vars": ["ANDROID_HOME", "ANDROID_SDK_ROOT"],
+      "project_files": ["local.properties"],
+      "file_contains": {
+        "path": "local.properties",
+        "pattern": "sdk.dir="
+      },
+      "remediation": "确保已安装对应 `compileSdk` / `buildTools` 的 Android SDK，并在项目根目录 `local.properties` 配置有效的 `sdk.dir=/path/to/Android/sdk`（或设置 `ANDROID_HOME`）。"
+    },
+    {
+      "id": "python-tooling",
+      "label": "Python 运行与分析脚本环境",
+      "markers": ["pyproject.toml", "requirements.txt", ".python-version", "analysis"],
+      "binaries": ["python3"],
+      "optional_binaries": ["uv"],
+      "remediation": "确保本机 `python3`（及推荐的 `uv`）已安装并可执行项目内的分析/基线验证脚本。"
+    },
+    {
+      "id": "node-runtime",
+      "label": "Node.js 运行时与包管理器",
+      "markers": ["package.json", ".nvmrc", "pnpm-lock.yaml", "yarn.lock"],
+      "binaries": ["node", "npm"],
+      "remediation": "确保已安装 Node.js（建议 >=22）并根据锁文件使用对应包管理器完成依赖安装。"
+    },
+    {
+      "id": "rust-toolchain",
+      "label": "Rust 工具链",
+      "markers": ["Cargo.toml"],
+      "binaries": ["cargo", "rustc"],
+      "remediation": "确保已通过 `rustup` 安装 `cargo` 与 `rustc` 工具链。"
+    },
+    {
+      "id": "go-toolchain",
+      "label": "Go 工具链",
+      "markers": ["go.mod"],
+      "binaries": ["go"],
+      "remediation": "确保已安装 Go 工具链并可通过 `go test ./...` 验证。"
+    },
+    {
+      "id": "env-template",
+      "label": "本地环境变量配置 (.env)",
+      "markers": [".env.example", ".env.template"],
+      "project_files": [".env"],
+      "remediation": "检测到 `.env.example` / `.env.template`，若缺少 `.env` 请引导用户按模板创建并填入所需本地配置（Agent 不读取私密凭据内容）。"
+    }
+  ]
+}

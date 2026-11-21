@@ -14,6 +14,8 @@
 
 """LLM provider, model hierarchy, fallback chaining, and configuration loaders."""
 
+import copy
+import os
 from pathlib import Path
 from typing import Any
 
@@ -23,6 +25,7 @@ from artemis.config.constants import (
     AgentNode,
 )
 from artemis.config.paths import ROOT_DIR, get_config_path
+from artemis.config.settings import settings
 from artemis.utils.cython_compat import CyFunctionDetector
 from third_party.mobile_use.config import llm as base_llm_config
 from third_party.mobile_use.config.llm import (
@@ -53,6 +56,8 @@ __all__ = [
     "lightweight_judge_default",
     "load_llm_config_override",
     "parse_llm_config",
+    "resolve_preset_config",
+    "get_active_preset_name",
     "validate_vertex_ai_credentials",
 ]
 
@@ -90,6 +95,7 @@ class LLMConfig(LLMConfigBase):
     validator_pixel_safety_net: LLMWithFallback | None = None
     planner_validation: LLMWithFallback | None = None
     output_analyzer: LLMWithFallback | None = None
+    validator: LLMWithFallback | None = None
 
     def validate_providers(self) -> None:
         """Validate credentials across all configured agent nodes."""
@@ -107,27 +113,183 @@ class LLMConfig(LLMConfigBase):
         self.explorer.validate_provider("Explorer")
         if self.history_analyzer:
             self.history_analyzer.validate_provider("HistoryAnalyzer")
-        if self.validator_pixel_safety_net:
-            self.validator_pixel_safety_net.validate_provider("ValidatorPixelSafetyNet")
+        vpsn = self.validator_pixel_safety_net or self.get_agent("validator_pixel_safety_net")
+        if vpsn:
+            vpsn.validate_provider("ValidatorPixelSafetyNet")
         if self.planner_validation:
             self.planner_validation.validate_provider("PlannerValidation")
         if self.output_analyzer:
             self.output_analyzer.validate_provider("OutputAnalyzer")
+        if self.validator:
+            self.validator.validate_provider("Validator")
 
     def get_agent(self, item: AgentNode) -> LLMWithFallback:
         """Retrieve model configuration for a specific agent node with sensible defaults."""
-        val = getattr(self, item)
+        val = getattr(self, item, None)
         if val is None:
-            if item == "history_analyzer":
+            if item in ("history_analyzer", "validator"):
                 return self.operator
             elif item in ("validator_pixel_safety_net", "planner_validation"):
                 # Both are cheap, high-frequency judges: the pixel safety net
                 # runs before actions, the planner validator after every
                 # milestone edit. They share one lightweight default.
-                return lightweight_judge_default()
+                if self.planner.provider == "google":
+                    return lightweight_judge_default()
+                else:
+                    op_fb = (
+                        self.operator.fallback.model_copy(update={"temperature": 0.0})
+                        if self.operator.fallback
+                        else None
+                    )
+                    return self.operator.model_copy(update={"temperature": 0.0, "fallback": op_fb})
             elif item == "output_analyzer":
                 return self.log_analyzer
         return val
+
+
+def get_active_preset_name(config_dict: dict, explicit_preset: str | None = None) -> str | None:
+    return (
+        explicit_preset
+        or os.environ.get("ARTEMIS_PRESET")
+        or (getattr(settings, "ARTEMIS_PRESET", None) if settings else None)
+        or config_dict.get("active_preset")
+    )
+
+
+def resolve_preset_config(config_dict: dict, explicit_preset: str | None = None) -> dict:
+    """Resolve preset configuration with priority: explicit_preset > ARTEMIS_PRESET > active_preset."""
+    if not isinstance(config_dict, dict):
+        return config_dict
+
+    presets_v2 = config_dict.get("presets_v2")
+    if not presets_v2:
+        return copy.deepcopy(config_dict)
+
+    preset_name = get_active_preset_name(config_dict, explicit_preset=explicit_preset)
+    if not preset_name:
+        return copy.deepcopy(config_dict)
+
+    if preset_name not in presets_v2:
+        raise ValueError(
+            f"Unknown preset {preset_name!r}. Available presets_v2: {sorted(presets_v2.keys())}"
+        )
+
+    preset = presets_v2[preset_name]
+    resolved = copy.deepcopy(config_dict)
+    resolved["default"] = copy.deepcopy(preset.get("default", {}))
+
+    default_provider = resolved["default"].get("provider")
+
+    def _check_leak(node_name: str, node_data: dict, def_prov: str | None):
+        if not isinstance(node_data, dict):
+            return
+        model = node_data.get("model")
+        prov = node_data.get("provider")
+        effective_prov = prov or def_prov
+        if model and not prov:
+            if effective_prov != "google" and "gemini" in model.lower():
+                raise ValueError(
+                    f"Provider inheritance leak in node '{node_name}': model '{model}' conflicts with default provider '{effective_prov}'"
+                )
+            if effective_prov != "deepseek" and "deepseek" in model.lower():
+                raise ValueError(
+                    f"Provider inheritance leak in node '{node_name}': model '{model}' conflicts with default provider '{effective_prov}'"
+                )
+            if effective_prov != "qwen" and "qwen" in model.lower():
+                raise ValueError(
+                    f"Provider inheritance leak in node '{node_name}': model '{model}' conflicts with default provider '{effective_prov}'"
+                )
+        fb = node_data.get("fallback")
+        if isinstance(fb, dict):
+            fb_model = fb.get("model")
+            fb_prov = fb.get("provider")
+            fb_effective = fb_prov or effective_prov
+            if fb_model and not fb_prov:
+                if fb_effective != "google" and "gemini" in fb_model.lower():
+                    raise ValueError(
+                        f"Provider inheritance leak in fallback of '{node_name}': model '{fb_model}' conflicts with provider '{fb_effective}'"
+                    )
+
+    preset_nodes = copy.deepcopy(preset.get("nodes", {}))
+    top_nodes = copy.deepcopy(config_dict.get("nodes", {}))
+    merged_nodes: dict[str, Any] = {}
+
+    behavioral_keys = {
+        "thinking_level",
+        "thinking_budget",
+        "temperature",
+        "include_thoughts",
+        "enable_grounding",
+        "timeout",
+        "is_multimodal",
+    }
+
+    for n_name, n_data in top_nodes.items():
+        if not isinstance(n_data, dict):
+            continue
+        if preset_name == "gemini-baseline":
+            merged_nodes[n_name] = copy.deepcopy(n_data)
+        else:
+            b_data = {k: v for k, v in n_data.items() if k in behavioral_keys}
+            if b_data:
+                merged_nodes[n_name] = b_data
+
+    for n_name, n_data in preset_nodes.items():
+        if n_name in merged_nodes:
+            merged_nodes[n_name] = {**merged_nodes[n_name], **copy.deepcopy(n_data)}
+        else:
+            merged_nodes[n_name] = copy.deepcopy(n_data)
+
+    # Validate against provider inheritance leaks on the final effective nodes
+    for n_name, n_data in merged_nodes.items():
+        _check_leak(n_name, n_data, default_provider)
+
+    resolved["nodes"] = merged_nodes
+    return resolved
+
+
+def _apply_runtime_env_model_overrides(resolved_dict: dict) -> dict:
+    """Apply runtime environment model overrides (DEEPSEEK_BASE_MODEL, QWEN_BASE_MODEL) to parsed config."""
+    if not isinstance(resolved_dict, dict):
+        return resolved_dict
+
+    default_cfg = resolved_dict.get("default")
+    default_provider = default_cfg.get("provider") if isinstance(default_cfg, dict) else None
+    nodes_cfg = resolved_dict.get("nodes")
+
+    ds_base_model = os.getenv("DEEPSEEK_BASE_MODEL") or (
+        getattr(settings, "DEEPSEEK_BASE_MODEL", None) if settings else None
+    )
+    if ds_base_model:
+        if isinstance(default_cfg, dict) and default_provider == "deepseek":
+            default_cfg["model"] = ds_base_model
+        if isinstance(nodes_cfg, dict):
+            for n_data in nodes_cfg.values():
+                if isinstance(n_data, dict):
+                    node_prov = n_data.get("provider") or default_provider
+                    if node_prov == "deepseek":
+                        n_data["model"] = ds_base_model
+
+    qwen_base_model = os.getenv("QWEN_BASE_MODEL") or (
+        getattr(settings, "QWEN_BASE_MODEL", None) if settings else None
+    )
+    if qwen_base_model:
+        if isinstance(default_cfg, dict) and default_provider == "qwen":
+            default_cfg["model"] = qwen_base_model
+        if isinstance(nodes_cfg, dict):
+            for n_name, n_data in nodes_cfg.items():
+                if isinstance(n_data, dict):
+                    node_prov = n_data.get("provider") or default_provider
+                    if node_prov == "qwen":
+                        n_data["model"] = qwen_base_model
+                        if n_name == "object_detector":
+                            qwen_url = os.getenv("QWEN_BASE_URL") or (
+                                str(getattr(settings, "QWEN_BASE_URL", "")) if settings else ""
+                            )
+                            if "siliconflow" in qwen_url.lower():
+                                n_data["coord_format"] = "bbox_xyxy_1000"
+                                n_data["timeout"] = max(float(n_data.get("timeout", 25.0)), 35.0)
+    return resolved_dict
 
 
 def _expand_default_into_nodes(config_dict: dict) -> dict:
@@ -213,7 +375,9 @@ def parse_llm_config() -> LLMConfig:
     try:
         with open(config_path, encoding="utf-8") as f:
             config_dict = load_jsonc(f)
-            expanded_dict = _expand_default_into_nodes(config_dict)
+            resolved_dict = resolve_preset_config(config_dict)
+            resolved_dict = _apply_runtime_env_model_overrides(resolved_dict)
+            expanded_dict = _expand_default_into_nodes(resolved_dict)
             return LLMConfig.model_validate(expanded_dict)
     except Exception as e:
         logger.error(f"Failed to load or parse llm config: {config_path}. Error: {e}")

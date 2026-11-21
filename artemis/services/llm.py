@@ -45,6 +45,7 @@ from artemis.data_engine.trace import CURRENT_TRACE_ID, DataEngineCallbackHandle
 from artemis.llm.google import is_google_chat_model, is_google_provider
 from artemis.llm.reliability import (
     CircuitBreaker,
+    Failure,
     FailureCategory,
     LLMCallError,
     LLMExhaustedError,
@@ -98,6 +99,77 @@ def _begin_llm_request(provider: str | None) -> Token:
 # behind this call (set by with_fallback).  When a fallback exists, exhausting
 # retries hands over to it immediately instead of pausing the whole task.
 _FALLBACK_AVAILABLE: ContextVar[bool] = ContextVar("llm_fallback_available", default=False)
+
+#: Vision providers reject degenerate frames (Qwen: "height(1) or width(1) must
+#: be larger than 28"). Anything below this is a capture failure, never a screen.
+MIN_USABLE_IMAGE_EDGE = 32
+
+_DATA_IMAGE_PREFIX = "data:image/"
+
+
+def _iter_data_image_blocks(messages: Any):
+    """Yield (mime, base64) for every inline image in a message list."""
+    if not isinstance(messages, (list, tuple)):
+        return
+    for message in messages:
+        content = getattr(message, "content", None)
+        if content is None and isinstance(message, dict):
+            content = message.get("content")
+        if not isinstance(content, list):
+            continue
+        for block in content:
+            if not isinstance(block, dict) or block.get("type") not in ("image_url", "image"):
+                continue
+            url = (block.get("image_url") or {}).get("url") if isinstance(block.get("image_url"), dict) else None
+            url = url or block.get("url") or ""
+            if not isinstance(url, str) or not url.startswith(_DATA_IMAGE_PREFIX):
+                continue
+            header, _, payload = url.partition(",")
+            yield header[len(_DATA_IMAGE_PREFIX):].split(";")[0], payload
+
+
+def unusable_image_reason(messages: Any) -> str | None:
+    """Why an inline image must not reach a model, or None when every image is usable.
+
+    Only decodable images are judged: an undecodable payload is left to the
+    provider (test doubles and exotic encodings must not be blocked here).
+    """
+    import base64
+    import io
+
+    from PIL import Image
+
+    for mime, payload in _iter_data_image_blocks(messages):
+        try:
+            raw = base64.b64decode(payload, validate=False)
+            with Image.open(io.BytesIO(raw)) as image:
+                width, height = image.size
+                extrema = image.convert("RGB").getextrema()
+        except Exception:
+            continue
+        if min(width, height) < MIN_USABLE_IMAGE_EDGE:
+            return (
+                f"degenerate {mime or 'image'} frame {width}x{height}: "
+                f"min edge {min(width, height)} < {MIN_USABLE_IMAGE_EDGE}"
+            )
+        if all(low == high for low, high in extrema):
+            llm_logger.warning(
+                f"Uniform {mime or 'image'} frame {width}x{height} sent to the model "
+                f"(pixel {extrema}); legitimate loading screens look like this."
+            )
+    return None
+
+
+def _reject_degenerate_images(messages: Any) -> None:
+    """Raise a permanent, non-fallback error instead of spending a call on a bad frame."""
+    reason = unusable_image_reason(messages)
+    if not reason:
+        return
+    llm_logger.error(f"Refusing to send an image to the model: {reason}")
+    raise LLMPermanentError(
+        reason,
+        failure=Failure(FailureCategory.BAD_REQUEST, False, False),
+    )
 
 # Shared circuit breaker keyed by "provider:model".  Transient failures open
 # it; while open, concurrent calls wait out the cooldown instead of hammering
@@ -595,6 +667,14 @@ class RobustChatModelWrapper:
 
     def with_structured_output(self, *args, **kwargs):
         if hasattr(self.base_model, "with_structured_output"):
+            if "method" not in kwargs and self.endpoint is not None:
+                if getattr(self.endpoint, "structured_output_method", None):
+                    kwargs["method"] = self.endpoint.structured_output_method
+                elif getattr(self.endpoint, "provider", None) in (
+                    ModelProvider.DEEPSEEK,
+                    ModelProvider.QWEN,
+                ):
+                    kwargs["method"] = "function_calling"
             return RobustChatModelWrapper(
                 self.base_model.with_structured_output(*args, **kwargs),
                 self.ctx,
@@ -640,6 +720,7 @@ class RobustChatModelWrapper:
 
     async def ainvoke(self, *args, **kwargs):
         args, kwargs, _ = self._traced_call(args, kwargs)
+        _reject_degenerate_images(args[0] if args else kwargs.get("input"))
         response = await _run_with_recovery(
             functools.partial(self.base_model.ainvoke, *args, **kwargs),
             provider=self._provider_value(),
@@ -659,6 +740,7 @@ class RobustChatModelWrapper:
         partial or duplicated chunks can never reach message history.
         """
         args, kwargs, _ = self._traced_call(args, kwargs)
+        _reject_degenerate_images(args[0] if args else kwargs.get("input"))
         emit_deltas = bool(self.ctx and self.ctx.data_engine)
         response = await _run_with_recovery(
             functools.partial(self._complete_attempt, emit_deltas, *args, **kwargs),
@@ -923,19 +1005,42 @@ def _resolve_endpoint(
         val = getattr(obj, attr, None)
         return val if isinstance(val, expected_type) else None
 
-    provider_val = getattr(cfg, "provider", "google")
-    model_val = getattr(cfg, "model", "gemini-2.5-flash")
+    provider_val = getattr(cfg, "provider", None)
+    model_val = getattr(cfg, "model", None)
+
+    if isinstance(provider_val, (str, ModelProvider)):
+        try:
+            provider = ModelProvider.from_string(provider_val)
+        except ValueError:
+            provider = ModelProvider.GOOGLE
+    elif isinstance(model_val, str) and "/" in model_val:
+        prefix = model_val.split("/", 1)[0]
+        try:
+            provider = ModelProvider.from_string(prefix)
+        except ValueError:
+            provider = ModelProvider.GOOGLE
+    else:
+        provider = ModelProvider.GOOGLE
+
+    model_name = str(model_val) if isinstance(model_val, str) and model_val else "gemini-2.5-flash"
+    multimodal_val = _get_val(cfg, "is_multimodal", bool)
+    is_multimodal = multimodal_val if multimodal_val is not None else True
 
     return ModelEndpoint(
-        provider=ModelProvider.from_string(provider_val),
-        model_name=str(model_val),
+        provider=provider,
+        model_name=model_name,
+        api_key=_get_val(cfg, "api_key", str),
+        api_base=_get_val(cfg, "api_base", str),
         temperature=_get_val(cfg, "temperature", (int, float)) or 0.0,
         timeout_seconds=_get_val(cfg, "timeout", (int, float)) or 60.0,
+        is_multimodal=is_multimodal,
         thinking_budget=_get_val(cfg, "thinking_budget", int),
         thinking_level=_get_val(cfg, "thinking_level", str),
         reasoning_effort=_get_val(cfg, "reasoning_effort", str),
         include_thoughts=_get_val(cfg, "include_thoughts", bool),
         enable_grounding=_get_val(cfg, "enable_grounding", bool) or False,
+        coord_format=_get_val(cfg, "coord_format", str),
+        structured_output_method=_get_val(cfg, "structured_output_method", str),
     )
 
 
@@ -959,6 +1064,113 @@ def _get_llm(
 
 
 get_llm: GetLLM = _get_llm
+
+
+def get_llm_for_model(
+    model_spec: str | None = None,
+    *,
+    ctx: ArtemisContext | None = None,
+    fallback_node: str = "summarizer",
+    temperature: float = 0.0,
+) -> BaseChatModel:
+    """Resolve an LLM for background services without hardcoding Google.
+
+    1. If ctx has an initialized llm_config whose fallback_node provider is NOT google,
+       and model_spec is either None or a default 'gemini-*' string from agent config,
+       delegate to get_llm(ctx, name=fallback_node, is_utils=False, temperature=temperature).
+    2. If model_spec uses 'provider/model' syntax (e.g. 'deepseek/deepseek-flash-v4-1017'),
+       parse provider and model_name and route via ModelFactory.get_model + RobustChatModelWrapper.
+    3. Otherwise, infer provider from ctx.llm_config (if available) or fallback to Google.
+    """
+    if ctx is None:
+        try:
+            ctx = ArtemisContext()
+        except (RuntimeError, ValueError, AttributeError, KeyError, OSError) as exc:
+            llm_logger.debug("Failed to initialize ArtemisContext: %s", exc)
+
+    llm_cfg = getattr(ctx, "llm_config", None) if ctx else None
+    if llm_cfg is None:
+        try:
+            llm_cfg = get_default_llm_config()
+            if ctx:
+                ctx.llm_config = llm_cfg
+        except (RuntimeError, ValueError, AttributeError, KeyError, OSError) as exc:
+            llm_logger.debug("Failed to load default LLMConfig: %s", exc)
+
+    # 1. If ctx has initialized llm_config whose fallback_node provider is NOT google
+    if llm_cfg is not None:
+        is_util = fallback_node in ("outputter", "hopper", "video_analyzer", "object_detector")
+        try:
+            node_cfg = (
+                llm_cfg.get_utils(fallback_node) if is_util else llm_cfg.get_agent(fallback_node)
+            )
+            provider = getattr(node_cfg, "provider", None)
+            if isinstance(provider, (str, ModelProvider)):
+                prov_enum = ModelProvider.from_string(provider)
+            else:
+                prov_enum = ModelProvider.GOOGLE
+        except Exception:
+            prov_enum = ModelProvider.GOOGLE
+
+        if prov_enum != ModelProvider.GOOGLE and (
+            model_spec is None or str(model_spec).lower().startswith("gemini")
+        ):
+            return get_llm(ctx, name=fallback_node, is_utils=is_util, temperature=temperature)
+
+    # 2. If model_spec uses 'provider/model' syntax
+    if model_spec and "/" in model_spec:
+        prov_str, model_name = model_spec.split("/", 1)
+        endpoint = ModelEndpoint(
+            provider=ModelProvider.from_string(prov_str),
+            model_name=model_name,
+            temperature=temperature,
+        )
+        raw_model = ModelFactory.get_model(endpoint)
+        return RobustChatModelWrapper(raw_model, ctx, endpoint=endpoint)
+
+    # 3. If model_spec is specified without slash
+    if model_spec:
+        if llm_cfg is not None:
+            is_util = fallback_node in ("outputter", "hopper", "video_analyzer", "object_detector")
+            node_cfg = (
+                llm_cfg.get_utils(fallback_node) if is_util else llm_cfg.get_agent(fallback_node)
+            )
+            provider = getattr(node_cfg, "provider", None)
+            if isinstance(provider, (str, ModelProvider)):
+                prov = ModelProvider.from_string(provider)
+            else:
+                prov = ModelProvider.GOOGLE
+
+            if prov != ModelProvider.GOOGLE and str(model_spec).lower().startswith("gemini"):
+                return get_llm(ctx, name=fallback_node, is_utils=is_util, temperature=temperature)
+
+            if "gemini" in model_spec.lower():
+                endpoint = ModelEndpoint(
+                    provider=ModelProvider.GOOGLE,
+                    model_name=model_spec,
+                    temperature=temperature,
+                )
+            else:
+                endpoint = ModelEndpoint(
+                    provider=prov,
+                    model_name=model_spec,
+                    temperature=temperature,
+                )
+        else:
+            endpoint = ModelEndpoint(
+                provider=ModelProvider.GOOGLE,
+                model_name=model_spec,
+                temperature=temperature,
+            )
+        raw_model = ModelFactory.get_model(endpoint)
+        return RobustChatModelWrapper(raw_model, ctx, endpoint=endpoint)
+
+    # 4. If model_spec is None and ctx is available
+    if ctx and llm_cfg:
+        is_util = fallback_node in ("outputter", "hopper", "video_analyzer", "object_detector")
+        return get_llm(ctx, name=fallback_node, is_utils=is_util, temperature=temperature)
+
+    return get_google_llm(temperature=temperature)
 
 
 class _ObservedFallback(FallbackRunner):

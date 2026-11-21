@@ -47,6 +47,7 @@ _CACHED_KEYS = (
     "cached_content_token_count",
     "cachedContentTokenCount",
     "total_cached_tokens",
+    "prompt_cache_hit_tokens",
 )
 _THOUGHT_KEYS = (
     "thought_tokens",
@@ -106,6 +107,10 @@ def normalize_usage(raw: Any) -> dict[str, int] | None:
     details = _read(raw, "input_token_details")
     if details is not None:
         cached = _int(_read(details, "cache_read"))
+    if not cached:
+        prompt_details = _read(raw, "prompt_tokens_details")
+        if prompt_details is not None:
+            cached = _int(_read(prompt_details, "cached_tokens"))
     if not cached:
         cached = _first(raw, _CACHED_KEYS)
 

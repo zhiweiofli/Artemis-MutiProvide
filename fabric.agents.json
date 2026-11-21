@@ -1,0 +1,34 @@
+{
+  "claude-code": {
+    "launch": ["/Users/zw-mini/.local/bin/claude"],
+    "orcaAgent": "claude",
+    "model": "group/auto-claude-sonnet[1m]",
+    "modelIdentity": "group/auto-claude-sonnet[1m]",
+    "effort": "high",
+    "displayName": "Claude Code (Manager)"
+  },
+  "agy": {
+    "launch": ["/Users/zw-mini/.local/bin/agy"],
+    "orcaAgent": "antigravity",
+    "model": "gemini-3.8-flash",
+    "modelIdentity": "gemini-3.8-flash",
+    "effort": "high",
+    "displayName": "Antigravity (Worker)"
+  },
+  "agy-argon": {
+    "launch": ["/Users/zw-mini/.local/bin/agy"],
+    "orcaAgent": "antigravity",
+    "model": "gemini-4-argon-high",
+    "modelIdentity": "gemini-4-argon",
+    "effort": "high",
+    "displayName": "Antigravity (Argon Fallback Worker)"
+  },
+  "codex": {
+    "launch": ["/opt/homebrew/bin/codex"],
+    "orcaAgent": "codex",
+    "model": "gpt-6.1-sol",
+    "modelIdentity": "gpt-6.1-sol",
+    "effort": "high",
+    "displayName": "Codex (Independent Reviewer)"
+  }
+}

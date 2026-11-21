@@ -36,6 +36,12 @@ from artemis.config.constants import (
     ENV_OPENAI_API_KEY,
     ENV_VISION_API_KEY,
     ENV_XAI_API_KEY,
+    ENV_DEEPSEEK_API_KEY,
+    ENV_DEEPSEEK_BASE_URL,
+    ENV_QWEN_API_KEY,
+    ENV_QWEN_BASE_URL,
+    ENV_DASHSCOPE_API_KEY,
+    ENV_ARTEMIS_PRESET,
 )
 from artemis.config.paths import (
     GLOBAL_APP_DIR,
@@ -100,6 +106,14 @@ class Settings(BaseSettings):
     ANTHROPIC_API_KEY: SecretStr | None = None
     XAI_API_KEY: SecretStr | None = None
     OPEN_ROUTER_API_KEY: SecretStr | None = None
+    DEEPSEEK_API_KEY: SecretStr | None = None
+    DEEPSEEK_BASE_URL: str = "https://api.deepseek.com/v1"
+    DEEPSEEK_BASE_MODEL: str | None = None
+    QWEN_API_KEY: SecretStr | None = None
+    QWEN_BASE_URL: str = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+    QWEN_BASE_MODEL: str | None = None
+    DASHSCOPE_API_KEY: SecretStr | None = None
+    ARTEMIS_PRESET: str | None = None
 
     # Google Cloud Vision OCR Authentication
     OCR_API_KEY: SecretStr | None = None
@@ -164,6 +178,9 @@ class Settings(BaseSettings):
             "ANTHROPIC_API_KEY",
             "XAI_API_KEY",
             "OPEN_ROUTER_API_KEY",
+            "DEEPSEEK_API_KEY",
+            "QWEN_API_KEY",
+            "DASHSCOPE_API_KEY",
             "OCR_API_KEY",
             "VISION_API_KEY",
             "API_KEY",
@@ -208,6 +225,10 @@ class Settings(BaseSettings):
             key = self.OPEN_ROUTER_API_KEY
         elif provider_lower in ("xai", "grok"):
             key = self.XAI_API_KEY
+        elif provider_lower == "deepseek":
+            key = self.DEEPSEEK_API_KEY
+        elif provider_lower in ("qwen", "dashscope", "bailian"):
+            key = self.QWEN_API_KEY or self.DASHSCOPE_API_KEY
 
         if key and not is_placeholder_key(key):
             return key
@@ -251,6 +272,16 @@ class Settings(BaseSettings):
             self.XAI_API_KEY = secret
             env_key_name = ENV_XAI_API_KEY
             os.environ[ENV_XAI_API_KEY] = key
+        elif provider_lower == "deepseek":
+            self.DEEPSEEK_API_KEY = secret
+            env_key_name = ENV_DEEPSEEK_API_KEY
+            os.environ[ENV_DEEPSEEK_API_KEY] = key
+        elif provider_lower in ("qwen", "dashscope", "bailian"):
+            self.QWEN_API_KEY = secret
+            self.DASHSCOPE_API_KEY = secret
+            env_key_name = ENV_QWEN_API_KEY
+            os.environ[ENV_QWEN_API_KEY] = key
+            os.environ[ENV_DASHSCOPE_API_KEY] = key
         elif provider_lower in ("ocr", "vision", "google_vision"):
             self.OCR_API_KEY = secret
             self.VISION_API_KEY = secret

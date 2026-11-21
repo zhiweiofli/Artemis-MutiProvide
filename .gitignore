@@ -108,6 +108,11 @@ live_screenshot*.png
 *.pem
 *.key
 
+# Agent Workbench & CodeGraph & Archify
+.codegraph/
+.agent/baseline.json
+.archify/
+
 # OS Artifacts
 .DS_Store
 .DS_Store?
@@ -116,3 +121,7 @@ live_screenshot*.png
 .Trashes
 ehthumbs.db
 Thumbs.db
+/.fabric/
+.alma-snapshots
+.artemis/
+.benchmark/

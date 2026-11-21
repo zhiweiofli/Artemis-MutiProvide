@@ -25,7 +25,6 @@ from artemis.config import (
 )
 from artemis.context import DevicePlatform
 from artemis.sdk.types.agent import AgentConfig, ServerConfig
-from artemis.utils.video import detect_video_tools_enabled
 from third_party.mobile_use.sdk.builders.agent_config_builder import AgentConfigBuilderBase
 
 
@@ -37,7 +36,7 @@ class AgentConfigBuilder(AgentConfigBuilderBase):
     def __init__(self):
         """Initialize an empty AgentConfigBuilder with Artemis defaults."""
         super().__init__(servers=get_default_servers())
-        self._video_recording_tools_enabled: bool = detect_video_tools_enabled()
+        self._video_recording_tools_enabled: bool = False
         self._force_web_accessibility: bool = False
         self._disable_checker: bool = False
         self._concurrency_mode: str = "per_device"
@@ -49,10 +48,10 @@ class AgentConfigBuilder(AgentConfigBuilderBase):
         self._denylisted_tools = agent_cfg.denylisted_tools
         self._video_analyzer = agent_cfg.video_analyzer
         self._enable_video_ledger = agent_cfg.video_analyzer.enable_ledger
-        if agent_cfg.video_analyzer.enabled is not None:
-            self._video_recording_tools_enabled = agent_cfg.video_analyzer.enabled
-        else:
-            self._video_recording_tools_enabled = detect_video_tools_enabled()
+        # Recording is opt-in: an unset key means off, never auto-detect. The
+        # footage holds account names and payment panels, and an orphaned
+        # recorder once grew to 8.7 GiB.
+        self._video_recording_tools_enabled = bool(agent_cfg.video_analyzer.enabled)
         self._disable_planner_validation = not agent_cfg.planner_validation.enabled
         self._enable_committee = agent_cfg.committee.enabled
         self._committee_debate_rounds = agent_cfg.committee.debate_rounds

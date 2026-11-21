@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "project": "artemis",
+  "documents": [
+    {
+      "role": "identity",
+      "path": "README.md"
+    },
+    {
+      "role": "rules",
+      "path": "AGENTS.md"
+    },
+    {
+      "role": "navigation",
+      "path": "PROJECT-MAP.md"
+    },
+    {
+      "role": "acceptance",
+      "path": "README.md"
+    },
+    {
+      "role": "handoff",
+      "path": "HANDOFF.md"
+    }
+  ],
+  "validation": [
+    {
+      "command": "node .agents/skills/workbench-project/scripts/check.mjs doctor .",
+      "source": "AGENTS.md"
+    }
+  ]
+}

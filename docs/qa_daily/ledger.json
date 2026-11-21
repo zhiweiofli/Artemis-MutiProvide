@@ -1,0 +1,35 @@
+{
+  "note": "每日质检执行台账。preflight.py 用它计算「连续执行天数」，run_games.py 跑完后由 cron 代理追加当天记录。",
+  "runs": [
+    {
+      "date": "2026-11-14",
+      "rounds": 3,
+      "games": 6,
+      "verdict": "3 PASS / 1 FAIL + 2 补测 PASS",
+      "notes": "第一/二/三轮，11:00 / 15:24 / 21:25"
+    },
+    {
+      "date": "2026-11-15",
+      "rounds": 1,
+      "games": 5,
+      "verdict": "4 PASS / 1 FAIL",
+      "notes": "v2 队列（13:29-14:51），大圣仍 FAIL"
+    },
+    {
+      "date": "2026-11-17",
+      "rounds": 1,
+      "games": 1,
+      "verdict": "0 PASS / 1 FAIL",
+      "launches_available": 1,
+      "notes": "补跑守卫 22:15 队列；当日首发仅 1 款（幻想九霄）→ D 阶段「武将换位」引导死锁 FAIL"
+    },
+    {
+      "date": "2026-11-18",
+      "rounds": 1,
+      "games": 3,
+      "verdict": "2 PASS / 1 非 PASS",
+      "launches_available": 3,
+      "notes": "每日队列 20261118_1930"
+    }
+  ]
+}

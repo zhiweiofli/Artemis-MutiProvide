@@ -41,6 +41,7 @@ import asyncio
 import base64
 from dataclasses import dataclass, field
 import json
+import os
 from pathlib import Path
 import re
 import uuid
@@ -53,6 +54,7 @@ from langchain_core.messages import (
     ToolMessage,
 )
 
+from artemis.agents.flash.preflight import ensure_foreground, expected_package
 from artemis.agents.flash.summarizer import VisualStepSummarizer, build_focus_context
 from artemis.agents.operator.prompts import REASONING_REMINDER, UserGuidance, render_user_guidance
 from artemis.agents.validator.tool_declarations import (
@@ -60,8 +62,10 @@ from artemis.agents.validator.tool_declarations import (
     CLICK_SEQUENCE_TOOL,
     LIST_NOTES_TOOL,
     READ_NOTE_TOOL,
+    ACCEPTANCE_CHECKS,
     REPORT_TASK_STATUS_TOOL,
     VALIDATOR_TOOLS_DECLARATION,
+    report_task_status_tool,
     capture_screenshot_and_parse_ui,
     prune_intermediate_screenshots,
 )
@@ -73,6 +77,7 @@ from artemis.config import (
 )
 from artemis.context import ArtemisContext
 from artemis.controllers.unified_controller import UnifiedMobileController
+from artemis.drivers.factory import get_driver
 from artemis.data_engine.trace import trace
 from artemis.graph.perception import _check_injected_instruction_file
 from artemis.graph.state import State
@@ -211,7 +216,9 @@ class FlashRunner:
             from artemis.tools.video_tool import VIDEO_ANALYZER_TOOL
 
             tools.append(VIDEO_ANALYZER_TOOL)
-        tools.append(REPORT_TASK_STATUS_TOOL)
+        tools.append(
+            report_task_status_tool(require_checks=self._report_checks_required())
+        )
         # With an actuator installed, drop declarations for device actions the
         # backend does not implement (and append its extension tools); without
         # one, the full historical declaration set is kept.
@@ -282,9 +289,14 @@ class FlashRunner:
         try:
             return get_llm(self.ctx, name="operator")
         except Exception as e:
-            logger.warning(f"Failed to get operator LLM from config, using default: {e}")
+            logger.warning(f"Failed to get operator LLM from config, trying fallback: {e}")
+            try:
+                return get_llm(self.ctx, name="operator", use_fallback=True)
+            except Exception as e_fb:
+                logger.warning(f"Failed to get operator fallback LLM, delegating: {e_fb}")
+                from artemis.services.llm import get_llm_for_model
 
-            return RobustChatModelWrapper(get_google_llm(model_name="gemini-2.5-flash"), self.ctx)
+                return get_llm_for_model(None, ctx=self.ctx, fallback_node="operator")
 
     def _render_system_prompt(self, tools_declaration: list) -> str:
         """Renders the system prompt from the flash_runner.md template.
@@ -502,6 +514,72 @@ class FlashRunner:
             return step_token_usage, True
         return self._estimate_token_usage(messages, raw_text), False
 
+    @staticmethod
+    def _report_checks_required() -> bool:
+        """Whether this task must answer the structured acceptance checks.
+
+        Opt-in per task (``ARTEMIS_FLASH_REPORT_CHECKS=1``): the checks describe
+        a game-QA acceptance gate, which a generic goal cannot answer honestly.
+        """
+        return os.environ.get("ARTEMIS_FLASH_REPORT_CHECKS", "").strip().lower() in (
+            "1",
+            "true",
+            "yes",
+            "required",
+        )
+
+    @staticmethod
+    def _gate_report(args: dict) -> tuple[str | None, str | None]:
+        """Apply the acceptance gate to a report; returns (verdict, reason).
+
+        ``verdict`` is None when the report passes the gate (or no gate applies).
+        A ``NO`` is a FAIL; missing answers or empty evidence are INCONCLUSIVE —
+        neither may ever be recorded as a PASS.
+        """
+        checks = {}
+        for name in ACCEPTANCE_CHECKS:
+            value = str(args.get(name, "")).strip().upper()
+            if value not in ("YES", "NO", "是", "否"):
+                return "INCONCLUSIVE", f"{name} is missing or not YES/NO (got {value!r})"
+            checks[name] = "YES" if value in ("YES", "是") else "NO"
+
+        evidence = args.get("evidence")
+        if not isinstance(evidence, dict):
+            return "INCONCLUSIVE", "evidence is missing (expected per-check evidence)"
+        for key in ("guide_gone", "entry_visible", "panel_opened"):
+            if not str(evidence.get(key, "")).strip():
+                return "INCONCLUSIVE", f"evidence for {key} is empty"
+
+        for name, value in checks.items():
+            if value == "NO":
+                return "FAIL", f"{name}=NO"
+        return None, None
+
+    async def _relaunch_locked_app(self, package: str) -> None:
+        """The single relaunch the foreground check is allowed before giving up."""
+        driver = get_driver(self.ctx)
+        launched = await driver.launch_app(package)
+        if not launched:
+            logger.warning(f"Relaunch of '{package}' was not acknowledged by the driver.")
+
+    def _record_preflight_failure(self, reason: str, seen: str | None) -> None:
+        """Writes the foreground-mismatch verdict to the session trace."""
+        if not self.ctx.data_engine:
+            return
+        try:
+            self.ctx.data_engine.record_trace(
+                type="preflight",
+                name="foreground_check",
+                payload={
+                    "expected_package": expected_package(self.ctx),
+                    "seen_package": seen,
+                    "reason": reason,
+                },
+                status="failed",
+            )
+        except Exception as e:  # pragma: no cover - trace must never hide the refusal
+            logger.warning(f"Failed to record the preflight trace: {e}")
+
     def _record_llm_trace(self, step_token_usage: dict, raw_text: str) -> None:
         """Records the llm_call trace for this turn in the DataEngine."""
         if self.ctx.data_engine:
@@ -554,6 +632,24 @@ class FlashRunner:
     ) -> dict:
         """Records the final step, acknowledges the tool call, and flushes."""
         final_report = args
+        if self._report_checks_required():
+            verdict, reason = self._gate_report(args)
+            if verdict:
+                if str(args.get("status", "")).strip().lower() == "completed":
+                    logger.warning(f"[REPORT_GATE] verdict={verdict}: {reason}")
+                else:
+                    logger.info(f"[REPORT_GATE] verdict={verdict}: {reason}")
+                final_report = {
+                    **args,
+                    "status": "failed",
+                    "verdict": verdict,
+                    "gate_reason": reason,
+                    "explanation": f"[{verdict}] {reason}. Model report: "
+                    f"{args.get('explanation', '')}",
+                }
+            else:
+                logger.info("[REPORT_GATE] verdict=PASS: all checks YES with evidence")
+                final_report = {**args, "verdict": "PASS"}
         if self.ctx.data_engine:
             try:
                 if self.ctx.data_engine.current_step_id is None:
@@ -1039,6 +1135,15 @@ class FlashRunner:
             f"Starting Artemis Flash reactive loop for goal: {self.goal}"
             f" (turn limit: {limit if limit else 'unlimited'})"
         )
+
+        # 0. Stage boundary: the locked app must own the screen before the
+        # first frame is captured, so a previous game's residue can never be
+        # mistaken for this task's state (no lock on the task -> no-op).
+        ok, reason, seen = await ensure_foreground(self.ctx, launch=self._relaunch_locked_app)
+        if not ok:
+            logger.error(f"Refusing to start: {reason}")
+            self._record_preflight_failure(reason, seen)
+            return {"status": "failed", "explanation": reason, "preflight": "foreground_mismatch"}
 
         # 1. Initialize Universal LLM via Service Layer
         llm = self._init_llm()
