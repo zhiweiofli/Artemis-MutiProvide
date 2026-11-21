@@ -11,7 +11,22 @@
 4. 跑完必须把当天记录写进 `docs/qa_daily/ledger.json`（`run_games.py` 会自动做）。
 5. 设备是 Pixel 3 `89FX09M9U`，仓库 `/Users/zw-mini/orca/artemis`，预设 `ARTEMIS_PRESET=ds-qwen-hybrid`。
 
-## 步骤
+## 首选：一条命令跑完（纯脚本）
+
+```bash
+python3 scripts/qa_daily/run_daily.py --budget-min 180
+```
+
+它按顺序做完：前置检查 → 清场（force-stop 往期游戏）→ 取当日可跑首发 → 装前空间核算（3× 包体积，
+不够就按最近任务倒序卸载**我们自己装过的包**）→ 安装 → BC/D/E（交 Artemis）→ 收尾 force-stop → 写台账。
+
+退出码：`0` 跑完 / `2` 前置条件不满足 / `3` 另一轮在跑 / `4` 当日无可跑首发 / `5` 安装全失败 / `6` 反复崩溃中止。
+
+**只有非 0 时**才需要按下面的分步流程人工判断；0 就只写报告，不用再动设备。
+
+## 分步流程（脚本失败或需要人工判断时）
+
+
 
 ### 1. 前置检查
 

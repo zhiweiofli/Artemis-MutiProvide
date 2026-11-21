@@ -181,6 +181,8 @@ def main() -> int:
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--date", default="今天")
     ap.add_argument("--require-download", action="store_true")
+    ap.add_argument("--runnable", action="store_true",
+                    help="可跑=可下载或已安装（action 含 下载/打开/已安装）")
     ap.add_argument("--max-swipes", type=int, default=10)
     args = ap.parse_args()
 
@@ -191,6 +193,8 @@ def main() -> int:
         launches = [c for c in launches if c["date"] == "今天"]
     if args.require_download:
         launches = [c for c in launches if "下载" in c["action"]]
+    if args.runnable:
+        launches = [c for c in launches if any(k in c["action"] for k in ("下载", "打开", "安装"))]
     launches.sort(key=lambda c: (c["date"], c["starts_at"]))
     if args.json:
         print(json.dumps(launches, ensure_ascii=False, indent=1))

@@ -25,6 +25,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts" / "qa_daily"))
 
 import runlock  # noqa: E402  (同目录的单实例锁)
+from rules import recovery  # noqa: E402  (业务规则：崩溃识别/恢复)
 
 _spec = importlib.util.spec_from_file_location("qa_queue", ROOT / "scripts" / "qa_1114_queue.py")
 q = importlib.util.module_from_spec(_spec)
@@ -99,7 +100,8 @@ def main() -> int:
         name, package = game["name"], game["package"]
         slug = game.get("slug") or f"qa_{abs(hash(package)) % 10**8}"
         row = {"name": name, "package": package, "schedule": game.get("schedule", ""),
-               "verdict": "SKIPPED", "note": "", "total_wall": 0.0, "d_wall": 0.0, "character": ""}
+               "verdict": "SKIPPED", "note": "", "total_wall": 0.0, "d_wall": 0.0,
+               "character": "", "crash": ""}
         if time.time() > deadline:
             row["note"] = "时间预算用尽"
             results.append(row)
@@ -112,6 +114,14 @@ def main() -> int:
         t0 = time.time()
         bc = q.run_phase(slug, "BC", goal_bc(name, package), BC_TIMEOUT, lock_package=package)
         bc_verdict = q.verdict_of(bc, BC_TIMEOUT)
+        if bc_verdict != "PASS":
+            crash = recovery.crash_signature(package)
+            if crash:
+                row["crash"] = crash[:300]
+                recovery.restart(package)
+                bc = q.run_phase(slug, "BC2", goal_bc(name, package), BC_TIMEOUT, lock_package=package)
+                bc_verdict = q.verdict_of(bc, BC_TIMEOUT)
+                row["note"] = "BC 崩溃后重启重跑一次"
         if bc_verdict != "PASS":
             row.update(verdict="BLOCKED" if bc_verdict == "BLOCKED" else "FAIL",
                        note=f"B+C {bc_verdict}", total_wall=round(time.time() - t0, 1))
@@ -130,6 +140,9 @@ def main() -> int:
         e_verdict = q.e_phase_verdict(e, E_TIMEOUT)
 
         if d_verdict != "PASS":
+            if d_verdict != "TIMEOUT" and recovery.crash_signature(package):
+                row["crash"] = (recovery.crash_signature(package) or "")[:300]
+                d_verdict = "CRASH"
             verdict = "TIMEOUT" if (d.get("timed_out") or d_verdict == "TIMEOUT") else d_verdict
             note = f"D {d_verdict}；E 未作为判据"
         else:
